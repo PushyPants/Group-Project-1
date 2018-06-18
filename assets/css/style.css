@@ -1,0 +1,10 @@
+.jumbotron{
+    padding: 10px;
+    color: white;
+    background-color: #333;
+    border-radius: 0;
+}
+
+.jumbotron h1 i {
+    font-weight: bold;
+}
