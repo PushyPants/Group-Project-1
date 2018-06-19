@@ -8,3 +8,26 @@
 .jumbotron h1 i {
     font-weight: bold;
 }
+
+#splash { 
+    /* this is relating to the splash page */
+    background-image: url("../images/world-map2.jpeg");
+    background-size: 100%;
+
+}
+#banner{
+    align-content: center;
+}
+#jumbo-style{
+    background-color: black;
+    opacity:.7;
+    text-align: center;
+}
+
+#getstartedbox{
+    text-align: center;
+    align-content: center;
+    height: 30%;
+    width: 30%;
+    background-color: antiquewhite;
+}
