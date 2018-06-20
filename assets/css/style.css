@@ -30,3 +30,7 @@ body {
 .main-body .search-results {
     border-right: 4px solid white;
 }
+
+#map {
+    height: 100%;
+  }
