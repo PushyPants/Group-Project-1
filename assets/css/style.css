@@ -57,3 +57,6 @@ body {
 .modal-header, .modal-title, .modal-footer, .modal-body{
  
 }
+#map {
+    height: 100%;
+  }
