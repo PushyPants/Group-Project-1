@@ -4,5 +4,7 @@ $(document).ready(function(){
     bandName = autoComplete.split(' ').join('+').toLowerCase();
 
     console.log(bandName);
+
+    
     
 });
