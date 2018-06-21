@@ -14,7 +14,7 @@ $(document).ready(function(){
 
             
             $.ajax({
-                url: `http://api.eventful.com/json/performers/search?app_key=dT9kBLwTGpSRrDZQ&keywords=`+searchInput,
+                url: `https://api.eventful.com/json/performers/search?app_key=dT9kBLwTGpSRrDZQ&keywords=`+searchInput,
                 method: 'GET',
                 dataType: 'jsonp',
             }).then(function(response){
@@ -32,7 +32,7 @@ $(document).ready(function(){
                     console.log(performersObj.name);
                     console.log('Artist ID: ',performersObj.id)
                     $.ajax({
-                        url: 'http://api.eventful.com/json/performers/events/list?app_key=dT9kBLwTGpSRrDZQ&id='+performersObj.id,
+                        url: 'https://api.eventful.com/json/performers/events/list?app_key=dT9kBLwTGpSRrDZQ&id='+performersObj.id,
                         method: 'GET',
                         dataType: 'jsonp',
                     }).then(function(response){
