@@ -31,6 +31,13 @@ $(document).ready(function(){
                 } else {
                     console.log(performersObj.name);
                     console.log('Artist ID: ',performersObj.id)
+                    $.ajax({
+                        url: 'http://api.eventful.com/json/performers/events/list?app_key=dT9kBLwTGpSRrDZQ&id='+performersObj.id,
+                        method: 'GET',
+                        dataType: 'jsonp',
+                    }).then(function(response){
+                        console.log(response);
+                    })
                 }
 
             })
@@ -46,20 +53,9 @@ $(document).ready(function(){
 
     
     //this is pertaining to the modal on the splash page <plz do not delete my dudes>
-
     $(window).on('load',function(){
         $('#myModal').modal('show');
     });
-   
-    $.ajax({
-        url: 'http://api.eventful.com/json/performers/events/list?app_key=dT9kBLwTGpSRrDZQ&id=P0-001-000000265-4',
-        method: 'GET',
-        dataType: 'jsonp',
-    }).then(function(response){
-        console.log(response);
-    })
-
-    
 
 
 
