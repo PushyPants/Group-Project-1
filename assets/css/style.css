@@ -58,5 +58,35 @@ body {
  
 } */
 #map {
+    height: 90%;
+    margin: 20px;
+    /* padding: 20px; */
+  }
+  #map {
+    margin-right: 400px;
+  }
+  /* Optional: Makes the sample page fill the window. */
+
+#right-panel {
+    font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+  }
+
+  #right-panel select, #right-panel input {
+    font-size: 15px;
+  }
+
+  #right-panel select {
+    width: 100%;
+  }
+
+  #right-panel i {
+    font-size: 12px;
+  }
+  #right-panel {
     height: 100%;
+    float: right;
+    width: 350px;
+    overflow: auto;
   }
