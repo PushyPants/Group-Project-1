@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Working Routes</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 90%;
+        margin: 20px;
+        /* padding: 20px; */
+      }
+      #map {
+        margin-right: 400px;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    #right-panel {
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+
+      #right-panel select, #right-panel input {
+        font-size: 15px;
+      }
+
+      #right-panel select {
+        width: 100%;
+      }
+
+      #right-panel i {
+        font-size: 12px;
+      }
+      #right-panel {
+        height: 100%;
+        float: right;
+        width: 350px;
+        overflow: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="right-panel"></div>
+    <div id="map"></div>
+    <script>
+    var start ={
+        lat: 29.743414,
+        lng: -95.392648
+    };
+
+    var end = {
+        lat:30.266474,
+        lng: -97.740786
+    };
+    var altstart ={
+        lat: 34.052235,
+        lng: -118.243683
+    };
+
+    var altend = {
+        lat:37.615223,
+        lng: -122.389977
+    };
+    function initMap() {
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+        var directionsService = new google.maps.DirectionsService;
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 14,
+          center: start
+        });
+        directionsDisplay.setMap(map);
+        directionsDisplay.setPanel(document.getElementById('right-panel'));
+
+        calculateAndDisplayRoute(directionsService, directionsDisplay);
+    }
+
+    function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+        //var selectedMode = "DRIVING";
+        directionsService.route({
+          origin: start,  
+          destination: end,  
+          // Note that Javascript allows us to access the constant
+          // using square brackets and a string value as its
+          // "property."
+          travelMode: 'DRIVING'
+        }, function(response, status) {
+          if (status == 'OK') {
+            directionsDisplay.setDirections(response);
+            console.log(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+    }
+    </script>
+    <script async defer
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyByQ2vFELH2U1syRSBKWtQI_NKo-EBIjDI&callback=initMap"
+    async defer></script>
+  </body>
+</html>
