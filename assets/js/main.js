@@ -1,49 +1,61 @@
 $(document).ready(function(){
 
-    autoComplete = 'Hall and oates'
-    bandName = autoComplete.split(' ').join('+').toLowerCase();
+    let searchInput;
+    let artistResults = [];
 
-    console.log(bandName);
+    //console.log(bandName);
+
+    function popResults() {
+        $('#artist-search').submit(function(event){
+            event.preventDefault();
+            searchInput = $('.artist-val').val().trim().split(' ').join('+').toLowerCase();
+            $('.artist-val').val('');
+            console.log(searchInput);
+
+            
+            $.ajax({
+                url: `http://api.eventful.com/json/performers/search?app_key=dT9kBLwTGpSRrDZQ&keywords=`+searchInput,
+                method: 'GET',
+                dataType: 'jsonp',
+            }).then(function(response){
+                let performersObj = response.performers.performer
+                console.log(performersObj);
+                let performersAmt = performersObj.length;
+                console.log(performersAmt);
+
+                if (performersAmt > 1) {
+                    $.each(performersObj, function(){
+                        console.log(this.name)
+                        console.log('Artist ID: ',this.id)
+                    })
+                } else {
+                    console.log(performersObj.name);
+                    console.log('Artist ID: ',performersObj.id)
+                    $.ajax({
+                        url: 'http://api.eventful.com/json/performers/events/list?app_key=dT9kBLwTGpSRrDZQ&id='+performersObj.id,
+                        method: 'GET',
+                        dataType: 'jsonp',
+                    }).then(function(response){
+                        console.log(response);
+                    })
+                }
+
+            })
+        })
+
+        //if results return more tha one artist 
+            //loop trough change the dom to list all artists
+                //on click of particular artist repopulate list with tour dates
+        //else 
+            //update DOM with list of tour dates
+    }
+    popResults();
 
     
     //this is pertaining to the modal on the splash page <plz do not delete my dudes>
-
     $(window).on('load',function(){
         $('#myModal').modal('show');
     });
-
-    // //this plays my song--- or should
-    // var song = document.createElement('audio');
-    // song.setAttribute("src", ".//audio/travel-song");
-    // song.play();
-
-
-    // map = new google.maps.Map(document.getElementById('map'), {
-    //     center: {lat: -34.397, lng: 150.644},
-    //     zoom: 10
-    //   });
-
-    // let evfKey = 'dT9kBLwTGpSRrDZQ';
-
-    // $.ajax({
-    //     url: 'http://api.eventful.com/json/performers/events/list?app_key=dT9kBLwTGpSRrDZQ&id=P0-001-000000265-4',
-    //     method: 'GET',
-    //     dataType: 'jsonp',
-    // }).then(function(response){
-    //     console.log(response);
-    // })
-    
-    //call eventful API and place the band name in the seach paramater of the endpoint
-
-    //NOT WORKING CROSS ORIGIN ERROR
-
-    $.ajax({
-        url: `http://api.eventful.com/json/performers/search?app_key=dT9kBLwTGpSRrDZQ&keywords=`+bandName,
-        method: 'GET',
-        dataType: 'jsonp',
-    }).then(function(response){
-        console.log(response);
-    })
 
 
 
