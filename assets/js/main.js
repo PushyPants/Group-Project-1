@@ -1,9 +1,48 @@
 $(document).ready(function(){
 
-    autoComplete = 'Hall and oates'
-    bandName = autoComplete.split(' ').join('+').toLowerCase();
+    let searchInput;
+    let artistResults = [];
 
-    console.log(bandName);
+    //console.log(bandName);
+
+    function popResults() {
+        $('#artist-search').submit(function(event){
+            event.preventDefault();
+            searchInput = $('.artist-val').val().trim().split(' ').join('+').toLowerCase();
+            $('.artist-val').val('');
+            console.log(searchInput);
+
+            
+            $.ajax({
+                url: `http://api.eventful.com/json/performers/search?app_key=dT9kBLwTGpSRrDZQ&keywords=`+searchInput,
+                method: 'GET',
+                dataType: 'jsonp',
+            }).then(function(response){
+                let performersObj = response.performers.performer
+                console.log(performersObj);
+                let performersAmt = performersObj.length;
+                console.log(performersAmt);
+
+                if (performersAmt > 1) {
+                    $.each(performersObj, function(){
+                        console.log(this.name)
+                        console.log('Artist ID: ',this.id)
+                    })
+                } else {
+                    console.log(performersObj.name);
+                    console.log('Artist ID: ',performersObj.id)
+                }
+
+            })
+        })
+
+        //if results return more tha one artist 
+            //loop trough change the dom to list all artists
+                //on click of particular artist repopulate list with tour dates
+        //else 
+            //update DOM with list of tour dates
+    }
+    popResults();
 
     
     //this is pertaining to the modal on the splash page <plz do not delete my dudes>
@@ -20,13 +59,7 @@ $(document).ready(function(){
         console.log(response);
     })
 
-    $.ajax({
-        url: `http://api.eventful.com/json/performers/search?app_key=dT9kBLwTGpSRrDZQ&keywords=`+bandName,
-        method: 'GET',
-        dataType: 'jsonp',
-    }).then(function(response){
-        console.log(response);
-    })
+    
 
 
 
