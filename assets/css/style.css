@@ -3,8 +3,90 @@
     color: white;
     background-color: #333;
     border-radius: 0;
+    border-bottom: 4px solid white;
+    margin-bottom: 0;
+}
+
+body {
+    height: 100vh;
+    background-color: #333;
 }
 
 .jumbotron h1 i {
     font-weight: bold;
 }
+
+.artist-form {
+    margin-top: 8px;
+}
+
+.main-body {
+    position: relative;
+    height: 100vh;
+    background-color: #333;
+    color: white;
+}
+
+.main-body .search-results {
+    border-right: 4px solid white;
+}
+
+#splash { 
+    /* this is relating to the splash page */
+    background-image: url("../images/fans.jpg");
+    background-size: 100%;
+
+}
+#banner{
+    align-content: center;
+}
+#jumbo-style{
+    background-color: black;
+    opacity:.7;
+    text-align: center;
+}
+
+#getstartedbox{
+    text-align: center;
+    align-content: center;
+    height: 30%;
+    width: 30%;
+    background-color: antiquewhite;
+}
+
+/* .modal-header, .modal-title, .modal-footer, .modal-body{
+ 
+} */
+#map {
+    height: 90%;
+    margin: 20px;
+    /* padding: 20px; */
+  }
+  #map {
+    margin-right: 400px;
+  }
+  /* Optional: Makes the sample page fill the window. */
+
+#right-panel {
+    font-family: 'Roboto','sans-serif';
+    line-height: 30px;
+    padding-left: 10px;
+  }
+
+  #right-panel select, #right-panel input {
+    font-size: 15px;
+  }
+
+  #right-panel select {
+    width: 100%;
+  }
+
+  #right-panel i {
+    font-size: 12px;
+  }
+  #right-panel {
+    height: 100%;
+    float: right;
+    width: 350px;
+    overflow: auto;
+  }
