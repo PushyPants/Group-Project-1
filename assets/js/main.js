@@ -58,50 +58,72 @@ $(document).ready(function(){
     });
 
 
-
+    // MAPPING CODE
+    // events to test marker of results
+    var event1 = {event: "Albany Concert", lat: 42.667, lng: -73.75};
+    var event2 = {event: "Albuquerque Concert", lat: 35.0833, lng: -106.65};
+    var event3= {event: "Amarilllo Concert", lat: 35.1833, lng: -101.833};
+    var arrayOfEvents = [event1,event2,event3];
+    var event1Loc = {lat: event1.lat, lng: event1.lng};
+    // place holder variables for point to point directions
     var start ={
         lat: 29.743414,
         lng: -95.392648
     };
-
+    
     var end = {
         lat:30.266474,
         lng: -97.740786
     };
-    function initMap() {
-        var directionsDisplay = new google.maps.DirectionsRenderer;
-        var directionsService = new google.maps.DirectionsService;
+    // function to generate a map with markers for each result
+    function resultsMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 14,
-          center: start
+            zoom: 4,
+            center: {lat: 39.833333, lng:-98.583333}
         });
-        directionsDisplay.setMap(map);
-        directionsDisplay.setPanel(document.getElementById('right-panel'));
-
-        calculateAndDisplayRoute(directionsService, directionsDisplay);
+        var marker = new google.maps.Marker({position: start, map: map});
+        var marker = new google.maps.Marker({position: end, map: map});
+        var marker = new google.maps.Marker({position: {lat: event1.lat, lng: event1.lng}, map: map});
+        var marker = new google.maps.Marker({position: {lat: event2.lat, lng: event2.lng}, map: map});
+        var marker = new google.maps.Marker({position: {lat: event3.lat, lng: event3.lng}, map: map});
+        // Code to control zoom/center
+        // loc = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
+        // loc = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
+        // bounds  = new google.maps.LatLngBounds();
+        // console.log(bounds);
+        // console.log(loc);
+        // bounds.extend(loc);
+        // map.fitBounds(bounds); 
+        // map.panToBounds(bounds); 
     }
+        // map for point to point
+        function initMap() {
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+            var directionsService = new google.maps.DirectionsService;
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 14,
+                center: start
+            });
+            directionsDisplay.setMap(map);
+            directionsDisplay.setPanel(document.getElementById('right-panel'));
 
-    function calculateAndDisplayRoute(directionsService, directionsDisplay) {
-        //var selectedMode = "DRIVING";
-        directionsService.route({
-          origin: start,  
-          destination: end,  
-          // Note that Javascript allows us to access the constant
-          // using square brackets and a string value as its
-          // "property."
-          travelMode: 'DRIVING'
-        }, function(response, status) {
-          if (status == 'OK') {
-            directionsDisplay.setDirections(response);
-            console.log(response);
-          } else {
-            window.alert('Directions request failed due to ' + status);
-          }
-        });
-    }
+            calculateAndDisplayRoute(directionsService, directionsDisplay);
+        }
 
-
-
-
+        function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+                directionsService.route({
+                    origin: start,  
+                    destination: end,  
+                    travelMode: 'DRIVING'
+            }, function(response, status) {
+                if (status == 'OK') {
+                directionsDisplay.setDirections(response);
+                console.log(response);
+                } else {
+                window.alert('Directions request failed due to ' + status);
+                }
+            });
+        }
+        
 
 });
