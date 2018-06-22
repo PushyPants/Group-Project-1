@@ -56,6 +56,36 @@ $(document).ready(function(){
     $(window).on('load',function(){
         $('#myModal').modal('show');
     });
+    //this is so nav icon can be clickable
+    $(document).on("click", "#locate-button",function(){
+        console.log("clicked locate-button"); //click is functioning
+        if ("geolocation" in navigator){ //check geolocation available 
+            //try to get user current location using getCurrentPosition() method
+            navigator.geolocation.getCurrentPosition(function(position){ 
+                    console.log("Found your location \nLat : "+position.coords.latitude+" \nLong :"+ position.coords.longitude);
+                    var currLat = position.coords.latitude;
+                    var currLong = position.coords.longitude;
+                    var newUrl = "search.html";
+                    window.location.replace(newUrl);
+                });
+        }else{
+            console.log("Browser doesn't support geolocation!");
+        }
+    });
+
+    //this is so submit can send you to search.html
+    $(document).on("click", "#submit-button",function(){
+        var city = $("#city-in").val().trim();
+        var state = $("#state-in").val().trim();
+        var zip = $("#zip-in").val().trim();
+        console.log(city+" "+state+" "+zip);
+        var newUrl = "search.html";
+        window.location.replace(newUrl);
+
+
+    });
+
+
 
 
     // MAPPING CODE

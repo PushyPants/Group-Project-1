@@ -38,6 +38,12 @@ body {
     background-size: 100%;
 
 }
+#locate-button{
+    /* this is so the locate button doesn't have the nasty button border */
+padding: 0;
+border: none;
+background: none;
+}
 #banner{
     align-content: center;
 }
