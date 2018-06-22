@@ -35,8 +35,18 @@ $(document).ready(function(){
                         url: 'https://api.eventful.com/json/performers/events/list?app_key=dT9kBLwTGpSRrDZQ&id='+performersObj.id,
                         method: 'GET',
                         dataType: 'jsonp',
-                    }).then(function(response){
-                        console.log(response);
+                    }).then(function(tourList){
+                        console.log(tourList);
+                        $.each(tourList.event, function(){
+                            $.ajax({
+                                url: 'http://api.eventful.com/json/events/get?app_key=dT9kBLwTGpSRrDZQ&id='+this.id,
+                                method: 'GET',
+                                dataType: 'jsonp'
+                            }).then(function(tourInfo){
+                                console.log(tourInfo)
+                                console.log('lat: ',tourInfo.latitude,' lng: ',tourInfo.longitude);
+                            })
+                        })
                     })
                 }
 
@@ -81,8 +91,6 @@ $(document).ready(function(){
         console.log(city+" "+state+" "+zip);
         var newUrl = "search.html";
         window.location.replace(newUrl);
-
-
     });
 
 
@@ -111,21 +119,62 @@ $(document).ready(function(){
             zoom: 4,
             center: {lat: 39.833333, lng:-98.583333}
         });
-        var marker = new google.maps.Marker({position: start, map: map});
+        var marker = new google.maps.Marker({
+            position: start, 
+            map: map
+        });
         var marker = new google.maps.Marker({position: end, map: map});
         var marker = new google.maps.Marker({position: {lat: event1.lat, lng: event1.lng}, map: map});
         var marker = new google.maps.Marker({position: {lat: event2.lat, lng: event2.lng}, map: map});
         var marker = new google.maps.Marker({position: {lat: event3.lat, lng: event3.lng}, map: map});
-        // Code to control zoom/center
-        // loc = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
-        // loc = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
+       
         // bounds  = new google.maps.LatLngBounds();
         // console.log(bounds);
         // console.log(loc);
         // bounds.extend(loc);
         // map.fitBounds(bounds); 
         // map.panToBounds(bounds); 
+
+                        //******* LOOP AND RECENTER MAP TO BOUNDS *******/
+                        // function initialize() {
+                        //     var locations = [
+                        //         ['DESCRIPTION', 41.926979, 12.517385, 3],
+                        //         ['DESCRIPTION', 41.914873, 12.506486, 2],
+                        //         ['DESCRIPTION', 61.918574, 12.507201, 1],
+                        //         ['DESCRIPTION', 39.833333, -98.583333, 14]
+                        //     ];
+                        
+                        //     window.map = new google.maps.Map(document.getElementById('map'), {
+                        //         mapTypeId: google.maps.MapTypeId.ROADMAP
+                        //     });
+                        
+                        //     var infowindow = new google.maps.InfoWindow();
+                        
+                        //     var bounds = new google.maps.LatLngBounds();
+                        
+                        //     for (i = 0; i < locations.length; i++) {
+                        //         marker = new google.maps.Marker({
+                        //             position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                        //             map: map
+                        //         });
+                        
+                        //         bounds.extend(marker.position);
+                        
+                        //         google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                        //             return function () {
+                        //                 infowindow.setContent(locations[i][0]);
+                        //                 infowindow.open(map, marker);
+                        //             }
+                        //         })(marker, i));
+                        //     }
+                        
+                        //     map.fitBounds(bounds);
+                        
+                        // }
+
+
     }
+    resultsMap();
         // map for point to point
         function initMap() {
             var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -139,6 +188,7 @@ $(document).ready(function(){
 
             calculateAndDisplayRoute(directionsService, directionsDisplay);
         }
+        // initMap();
 
         function calculateAndDisplayRoute(directionsService, directionsDisplay) {
                 directionsService.route({
