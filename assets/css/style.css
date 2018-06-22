@@ -38,6 +38,12 @@ body {
     background-size: 100%;
 
 }
+#locate-button{
+    /* this is so the locate button doesn't have the nasty button border */
+padding: 0;
+border: none;
+background: none;
+}
 #banner{
     align-content: center;
 }
@@ -60,12 +66,13 @@ body {
 } */
 #map {
     height: 90%;
-    margin: 20px;
-    /* padding: 20px; */
   }
-  #map {
-    margin-right: 400px;
-  }
+
+  .map-results {
+      padding-left: 0px;
+  };
+ 
+  
   /* Optional: Makes the sample page fill the window. */
 
 #right-panel {
@@ -90,4 +97,4 @@ body {
     float: right;
     width: 350px;
     overflow: auto;
-  }
+  } 

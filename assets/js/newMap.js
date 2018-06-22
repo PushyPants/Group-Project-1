@@ -5,6 +5,10 @@ var directionsMap;
 var z = document.getElementById("directions-canvas");
 var start;
 var end;
+var event1 = {event: "Albany Concert", Lat: 42.667, Lng: -73.75};
+var event2 = {event: "Albuquerque Concert", Lat: 35.0833, Lng: -106.65};
+var event3= {event: "Amarilllo Concert", Lat: 35.1833, Lng: -101.833};
+var arrayOfEvents = [event1,event2,event3];
 
 function getDirectionsLocation() {
 	console.log("getDirectionsLocation");
