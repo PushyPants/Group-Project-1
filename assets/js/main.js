@@ -78,16 +78,21 @@ $(document).ready(function(){
         });
     //check if variable exists outside clicks (hence, saved in Local)
     console.log("local storage has " + localStorage.currLat+" "+localStorage.currLong); 
-    console.log("local storage zip is " +localStorage.zipcode);
+    console.log("local storage : \n address is "+localStorage.address+" \n city is " +localStorage.city+"\n state is " +localStorage.state +"\n zip is " +localStorage.zipcode);
         
     //this is so submit can send you to search.html
     $(document).on("click", "#submit-button",function(){
         localStorage.clear();
+
+        var address = $("#address-in").val().trim();
         var city = $("#city-in").val().trim();
         var state = $("#state-in").val().trim();
-        var zip = $("#zip-in").val().trim();
-        localStorage.setItem("zipcode", zip);
-        console.log(city+" "+state+" "+zip);
+        var zipcode = $("#zip-in").val().trim();
+        localStorage.setItem("address", address);
+        localStorage.setItem("city", city);
+        localStorage.setItem("state", state);
+        localStorage.setItem("zipcode", zipcode);
+        console.log(city+" "+state+" "+zipcode);
         
         
         var newUrl = "search.html";
