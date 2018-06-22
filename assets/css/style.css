@@ -66,12 +66,13 @@ background: none;
 } */
 #map {
     height: 90%;
-    margin: 20px;
-    /* padding: 20px; */
   }
-  #map {
-    margin-right: 400px;
-  }
+
+  .map-results {
+      padding-left: 0px;
+  };
+ 
+  
   /* Optional: Makes the sample page fill the window. */
 
 #right-panel {
@@ -96,4 +97,4 @@ background: none;
     float: right;
     width: 350px;
     overflow: auto;
-  }
+  } 
