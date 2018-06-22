@@ -98,3 +98,15 @@ background: none;
     width: 350px;
     overflow: auto;
   } 
+
+  .wc-content {
+      color: black;
+  }
+
+  .wc-title {
+      /* color: black; */
+      text-decoration: underline;
+  }
+  .wc-image {
+      border-radius: 50%;
+  }
