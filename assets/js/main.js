@@ -30,6 +30,12 @@ $(document).ready(function(){
                         console.log('Artist ID: ',this.id)
                     })
                 } else {
+                    window.map = new google.maps.Map(document.getElementById('map'), {
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    });                
+                    var infowindow = new google.maps.InfoWindow();                
+                    var bounds = new google.maps.LatLngBounds();
+
                     console.log(performersObj.name);
                     console.log('Artist ID: ',performersObj.id)
                     $.ajax({
@@ -47,11 +53,45 @@ $(document).ready(function(){
                                 tourResultObj.push(tourInfo);
                                 console.log(tourInfo)
                                 console.log('lat: ',tourInfo.latitude,' lng: ',tourInfo.longitude);
+
+                                marker = new google.maps.Marker({
+                                    position: new google.maps.LatLng(tourInfo.latitude, tourInfo.longitude),
+                                    map: map
+                                });
+                        
+                                bounds.extend(marker.position);
+                                map.fitBounds(bounds);  
+
+                                let windowContent = `
+                                <div class="row wc-content">
+                                    <div class="col-md-3">
+                                        <img class="img-circle wc-image" src="`+tourInfo.images.image["0"].small.url+`">
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="wc-title">
+                                            <h6>`+tourInfo.title+`</h6>
+                                        </div>
+                                        <div class="wc-location">
+                                            <p>`+tourInfo.city+`, `+tourInfo.region_abbr+` @ `+tourInfo.venue_name+`</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                `
+
+                                google.maps.event.addListener(marker, 'click', (function (marker) {
+                                    return function () {
+                                        infowindow.setContent(windowContent);
+                                        infowindow.open(map, marker);
+                                    }
+                                })(marker));
                             })
                         })
                         //change timeout to somehow wait till each loop is finished
-                        setTimeout(function(){resultsMap()},10000);
-                        console.log(tourResultObj);
+                        // setTimeout(function(){
+                        //     resultsMap()
+                        //     console.log(tourResultObj)
+                        // },10000);
+                        // console.log(tourResultObj);
                     })
                     
                 }
