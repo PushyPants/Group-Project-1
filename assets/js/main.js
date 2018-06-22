@@ -61,13 +61,13 @@ $(document).ready(function(){
     }
     popResults();
 
-    
     //this is pertaining to the modal on the splash page <plz do not delete my dudes>
     $(window).on('load',function(){
         $('#myModal').modal('show');
     });
     //this is so nav icon can be clickable
     $(document).on("click", "#locate-button",function(){
+        localStorage.clear();
         console.log("clicked locate-button"); //click is functioning
         if ("geolocation" in navigator){ //check geolocation available 
             //try to get user current location using getCurrentPosition() method
@@ -75,20 +75,31 @@ $(document).ready(function(){
                     console.log("Found your location \nLat : "+position.coords.latitude+" \nLong :"+ position.coords.longitude);
                     var currLat = position.coords.latitude;
                     var currLong = position.coords.longitude;
+                        //here we store these variables into localStorage (because we can use this info for google maps)
+                        localStorage.setItem("currLat", currLat); 
+                        localStorage.setItem("currLong", currLong);
                     var newUrl = "search.html";
                     window.location.replace(newUrl);
+                    //to use coordinates with google maps, make sure you use localStorage.currLong or localStorage.currLat
                 });
-        }else{
-            console.log("Browser doesn't support geolocation!");
-        }
-    });
-
+            }else{
+                console.log("Browser doesn't support geolocation!");
+            }
+        });
+    //check if variable exists outside clicks (hence, saved in Local)
+    console.log("local storage has " + localStorage.currLat+" "+localStorage.currLong); 
+    console.log("local storage zip is " +localStorage.zipcode);
+        
     //this is so submit can send you to search.html
     $(document).on("click", "#submit-button",function(){
+        localStorage.clear();
         var city = $("#city-in").val().trim();
         var state = $("#state-in").val().trim();
         var zip = $("#zip-in").val().trim();
+        localStorage.setItem("zipcode", zip);
         console.log(city+" "+state+" "+zip);
+        
+        
         var newUrl = "search.html";
         window.location.replace(newUrl);
     });
