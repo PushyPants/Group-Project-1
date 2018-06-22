@@ -49,21 +49,18 @@
             <div class="modal-body">
                 <!-- input form goes here -->
                 <form>
-                    <div class="form-group">
-                      <label for="formGroupExampleInput">Your Name </label>
-                      <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Your Name" autocomplete="name">
-                    </div>
+                    
                   
                     <label for ="form-rowInput">City, State and Address</label>
                     <div class="form-row">
                         <div class="col-7">
-                          <input type="text" class="form-control" placeholder="City" autocomplete="address-level1">
+                          <input type="text" id="city-in" class="form-control" placeholder="City" autocomplete="address-level1">
                         </div>
                         <div class="col">
-                          <input type="text" class="form-control" placeholder="State" autocomplete="address-level2">
+                          <input type="text" id="state-in" class="form-control" placeholder="State" autocomplete="address-level2">
                         </div>
                         <div class="col">
-                          <input type="text" class="form-control" placeholder="Zip" autocomplete="postal-code">
+                          <input type="text" id="zip-in" class="form-control" placeholder="Zip" autocomplete="postal-code">
                         </div>
                       </div>
                   </form>
@@ -72,9 +69,12 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn" id = "locate-button" ><i class="material-icons" > not_listed_location </i></button>
+              <div class="col" style = "padding:0;">
+                <button type="button" class="btn" id = "locate-button" ><i class="material-icons" > not_listed_location </i></button> Click to make things easier!
+                
+              </div>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Submit-info</button>
+              <button type="button" id="submit-button"class="btn btn-primary">Submit</button>
             </div>
           </div>
         </div>
