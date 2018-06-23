@@ -1,16 +1,53 @@
 $(document).ready(function(){
 
     let searchInput;
-    let artistResults = [];
     let tourResultObj = [];
 
-    //console.log(bandName);
+    //This function will take the current object (placed in x) and modify the dom based on the objects contents
+    function popArtistList (x){
+        if (x.image === null) {
+            artistImage = 'https://i.pinimg.com/originals/55/04/f9/5504f9e91eea2dd858e595845142c7da.jpg'
+        } else {
+            artistImage = x.image.medium.url.split('//').join('https://');
+        }
+
+        let resRow = $('<div>').attr({
+            id: x.id,
+            class: 'res-row row',
+            'data-name' : x.name,
+            'data-bio' : x.short_bio,
+        });
+        let imgCol = $('<div>').attr({class: 'col-sm-2 mx-auto img-col'});
+        let resImg = $('<img>').attr({
+            class: 'res-image img-fluid mx-auto',
+            src: artistImage,
+        });
+        let contentCol = $('<div>').attr({class: 'col-sm-8 res-content text-center'});
+        let resTitleRow = $('<div>').attr({class: 'row title-row text-center'})
+        let resTitle = $('<h2>').attr({class:'text-center'});
+        let resBodyRow = $('<div>').attr({class: 'row res-body-row text-left'});
+        let resLocation = $('<h3>').attr({class: 'text-left'});
+        let dateCol = $('<div>').attr({class: 'col-sm-2 res-date text-center'});
+        let resDate = $('<h4>');
+
+        $('.search-results').append(resRow);
+            $('#'+x.id ).append(imgCol);
+                $('#'+x.id+' .img-col').append(resImg);
+            $('#'+x.id).append(contentCol);
+                $('#'+x.id+' .res-content').append(resTitleRow);
+                $('#'+x.id+' .title-row').append(resTitle);
+                    resTitle.text(x.name);
+                $('#'+x.id+' .res-content').append(resBodyRow);
+                $('#'+x.id+' .res-body-row').append(resLocation);
+                    resLocation.text(x.short_bio);
+    }
 
     function popResults() {
         $('#artist-search').submit(function(event){
             event.preventDefault();
             searchInput = $('.artist-val').val().trim().split(' ').join('+').toLowerCase();
             $('.artist-val').val('');
+            $('.search-results').empty();
             console.log(searchInput);
 
             
@@ -18,16 +55,15 @@ $(document).ready(function(){
                 url: `https://api.eventful.com/json/performers/search?app_key=dT9kBLwTGpSRrDZQ&keywords=`+searchInput,
                 method: 'GET',
                 dataType: 'jsonp',
-            }).then(function(response){
-                let performersObj = response.performers.performer
+            }).then(function(artistSearch){
+                let performersObj = artistSearch.performers.performer
                 console.log(performersObj);
                 let performersAmt = performersObj.length;
                 console.log(performersAmt);
 
                 if (performersAmt > 1) {
                     $.each(performersObj, function(){
-                        console.log(this.name)
-                        console.log('Artist ID: ',this.id)
+                        popArtistList(this);
                     })
                 } else {
                     window.map = new google.maps.Map(document.getElementById('map'), {
@@ -106,6 +142,7 @@ $(document).ready(function(){
             //update DOM with list of tour dates
     }
     popResults();
+
 
     //this is pertaining to the modal on the splash page <plz do not delete my dudes>
     $(window).on('load',function(){
