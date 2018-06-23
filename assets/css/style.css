@@ -110,3 +110,9 @@ background: none;
   .wc-image {
       border-radius: 50%;
   }
+
+  .res-row {
+      border-bottom: 2px solid white;
+      min-height: 50px;
+      
+  }
