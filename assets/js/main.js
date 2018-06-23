@@ -2,6 +2,7 @@ $(document).ready(function(){
 
     $('.artist-val').focus();
 
+    
     let searchInput;
     let tourResultObj = [];
 
@@ -289,5 +290,27 @@ $(document).ready(function(){
             });
         }
         
+
+        //function popMap (lat,lng,zoom) {
+
+        //}
+
+        //function startMap (userLocation){
+            //if (window.location.href.includes('search') {
+                //geocode !== undefined && user address/zip !== undefined
+                    //if geo code exitst
+                        //use geo & populate map
+                    //else
+                        //use user input & populate map
+                // eles
+                    //request geolocation access again
+                        //if declined
+                            //modal to get user input
+                                //populate map
+                        //else
+                            //use geo and populate map
+
+            //}
+        //}
 
 });
