@@ -44,7 +44,7 @@ $(document).ready(function(){
                     resLocation.text(x.short_bio);
     }
 
-    function popResults() {
+    function performSearch() {
         $('#artist-search').submit(function(event){
             event.preventDefault();
             searchInput = $('.artist-val').val().trim().split(' ').join('+').toLowerCase();
@@ -59,9 +59,7 @@ $(document).ready(function(){
                 dataType: 'jsonp',
             }).then(function(artistSearch){
                 let performersObj = artistSearch.performers.performer
-                console.log(performersObj);
                 let performersAmt = performersObj.length;
-                console.log(performersAmt);
 
                 if (performersAmt > 1) {
                     $.each(performersObj, function(){
@@ -143,7 +141,7 @@ $(document).ready(function(){
         //else 
             //update DOM with list of tour dates
     }
-    popResults();
+    performSearch();
 
 
     //this is pertaining to the modal on the splash page <plz do not delete my dudes>
