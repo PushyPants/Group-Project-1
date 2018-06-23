@@ -1,15 +1,55 @@
 $(document).ready(function(){
 
+    $('.artist-val').focus();
+
     let searchInput;
-    let artistResults = [];
+    let tourResultObj = [];
 
-    //console.log(bandName);
+    //This function will take the current object (placed in x) and modify the dom based on the objects contents
+    function popArtistList (x){
+        if (x.image === null) {
+            artistImage = 'https://i.pinimg.com/originals/55/04/f9/5504f9e91eea2dd858e595845142c7da.jpg'
+        } else {
+            artistImage = x.image.medium.url.split('//').join('https://');
+        }
 
-    function popResults() {
+        let resRow = $('<div>').attr({
+            id: x.id,
+            class: 'res-row row',
+            'data-name' : x.name,
+            'data-bio' : x.short_bio,
+        });
+        let imgCol = $('<div>').attr({class: 'col-sm-2 mx-auto img-col'});
+        let resImg = $('<img>').attr({
+            class: 'res-image img-fluid mx-auto',
+            src: artistImage,
+        });
+        let contentCol = $('<div>').attr({class: 'col-sm-8 res-content text-center'});
+        let resTitleRow = $('<div>').attr({class: 'row title-row text-center'})
+        let resTitle = $('<h2>').attr({class:'text-center'});
+        let resBodyRow = $('<div>').attr({class: 'row res-body-row text-left'});
+        let resLocation = $('<h3>').attr({class: 'text-left'});
+        let dateCol = $('<div>').attr({class: 'col-sm-2 res-date text-center'});
+        let resDate = $('<h4>');
+
+        $('.search-results').append(resRow);
+            $('#'+x.id ).append(imgCol);
+                $('#'+x.id+' .img-col').append(resImg);
+            $('#'+x.id).append(contentCol);
+                $('#'+x.id+' .res-content').append(resTitleRow);
+                $('#'+x.id+' .title-row').append(resTitle);
+                    resTitle.text(x.name);
+                $('#'+x.id+' .res-content').append(resBodyRow);
+                $('#'+x.id+' .res-body-row').append(resLocation);
+                    resLocation.text(x.short_bio);
+    }
+
+    function performSearch() {
         $('#artist-search').submit(function(event){
             event.preventDefault();
             searchInput = $('.artist-val').val().trim().split(' ').join('+').toLowerCase();
             $('.artist-val').val('');
+            $('.search-results').empty();
             console.log(searchInput);
 
             
@@ -17,18 +57,21 @@ $(document).ready(function(){
                 url: `https://api.eventful.com/json/performers/search?app_key=dT9kBLwTGpSRrDZQ&keywords=`+searchInput,
                 method: 'GET',
                 dataType: 'jsonp',
-            }).then(function(response){
-                let performersObj = response.performers.performer
-                console.log(performersObj);
+            }).then(function(artistSearch){
+                let performersObj = artistSearch.performers.performer
                 let performersAmt = performersObj.length;
-                console.log(performersAmt);
 
                 if (performersAmt > 1) {
                     $.each(performersObj, function(){
-                        console.log(this.name)
-                        console.log('Artist ID: ',this.id)
+                        popArtistList(this);
                     })
                 } else {
+                    window.map = new google.maps.Map(document.getElementById('map'), {
+                        mapTypeId: google.maps.MapTypeId.ROADMAP
+                    });                
+                    var infowindow = new google.maps.InfoWindow();                
+                    var bounds = new google.maps.LatLngBounds();
+
                     console.log(performersObj.name);
                     console.log('Artist ID: ',performersObj.id)
                     $.ajax({
@@ -43,11 +86,50 @@ $(document).ready(function(){
                                 method: 'GET',
                                 dataType: 'jsonp'
                             }).then(function(tourInfo){
+                                tourResultObj.push(tourInfo);
                                 console.log(tourInfo)
                                 console.log('lat: ',tourInfo.latitude,' lng: ',tourInfo.longitude);
+
+                                marker = new google.maps.Marker({
+                                    position: new google.maps.LatLng(tourInfo.latitude, tourInfo.longitude),
+                                    map: map
+                                });
+                        
+                                bounds.extend(marker.position);
+                                map.fitBounds(bounds);  
+
+                                let windowContent = `
+                                <div class="row wc-content">
+                                    <div class="col-md-3">
+                                        <img class="img-circle wc-image" src="`+tourInfo.images.image["0"].small.url+`">
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="wc-title">
+                                            <h6>`+tourInfo.title+`</h6>
+                                        </div>
+                                        <div class="wc-location">
+                                            <p>`+tourInfo.city+`, `+tourInfo.region_abbr+` @ `+tourInfo.venue_name+`</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                `
+
+                                google.maps.event.addListener(marker, 'click', (function (marker) {
+                                    return function () {
+                                        infowindow.setContent(windowContent);
+                                        infowindow.open(map, marker);
+                                    }
+                                })(marker));
                             })
                         })
+                        //change timeout to somehow wait till each loop is finished
+                        // setTimeout(function(){
+                        //     resultsMap()
+                        //     console.log(tourResultObj)
+                        // },10000);
+                        // console.log(tourResultObj);
                     })
+                    
                 }
 
             })
@@ -59,7 +141,8 @@ $(document).ready(function(){
         //else 
             //update DOM with list of tour dates
     }
-    popResults();
+    performSearch();
+
 
     //this is pertaining to the modal on the splash page <plz do not delete my dudes>
     $(window).on('load',function(){
@@ -131,66 +214,56 @@ $(document).ready(function(){
     };
     // function to generate a map with markers for each result
     function resultsMap() {
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 4,
-            center: {lat: 39.833333, lng:-98.583333}
-        });
-        var marker = new google.maps.Marker({
-            position: start, 
-            map: map
-        });
-        var marker = new google.maps.Marker({position: end, map: map});
-        var marker = new google.maps.Marker({position: {lat: event1.lat, lng: event1.lng}, map: map});
-        var marker = new google.maps.Marker({position: {lat: event2.lat, lng: event2.lng}, map: map});
-        var marker = new google.maps.Marker({position: {lat: event3.lat, lng: event3.lng}, map: map});
-       
-        // bounds  = new google.maps.LatLngBounds();
-        // console.log(bounds);
-        // console.log(loc);
-        // bounds.extend(loc);
-        // map.fitBounds(bounds); 
-        // map.panToBounds(bounds); 
+        // var map = new google.maps.Map(document.getElementById('map'), {
+        //     zoom: 4,
+        //     //change to users stored location value
+        //     center: {lat: 39.833333, lng:-98.583333}
+        // });
 
-                        //******* LOOP AND RECENTER MAP TO BOUNDS *******/
-                        // function initialize() {
-                        //     var locations = [
-                        //         ['DESCRIPTION', 41.926979, 12.517385, 3],
-                        //         ['DESCRIPTION', 41.914873, 12.506486, 2],
-                        //         ['DESCRIPTION', 61.918574, 12.507201, 1],
-                        //         ['DESCRIPTION', 39.833333, -98.583333, 14]
-                        //     ];
-                        
-                        //     window.map = new google.maps.Map(document.getElementById('map'), {
-                        //         mapTypeId: google.maps.MapTypeId.ROADMAP
-                        //     });
-                        
-                        //     var infowindow = new google.maps.InfoWindow();
-                        
-                        //     var bounds = new google.maps.LatLngBounds();
-                        
-                        //     for (i = 0; i < locations.length; i++) {
-                        //         marker = new google.maps.Marker({
-                        //             position: new google.maps.LatLng(locations[i][1], locations[i][2]),
-                        //             map: map
-                        //         });
-                        
-                        //         bounds.extend(marker.position);
-                        
-                        //         google.maps.event.addListener(marker, 'click', (function (marker, i) {
-                        //             return function () {
-                        //                 infowindow.setContent(locations[i][0]);
-                        //                 infowindow.open(map, marker);
-                        //             }
-                        //         })(marker, i));
-                        //     }
-                        
-                        //     map.fitBounds(bounds);
-                        
-                        // }
 
+        /******* LOOP AND RECENTER MAP TO BOUNDS *******/   
+        
+            // var locations = [
+            //     ['DESCRIPTION', 41.926979, 12.517385, 3],
+            //     ['DESCRIPTION', 41.914873, 12.506486, 2],
+            //     ['DESCRIPTION', 61.918574, 12.507201, 1],
+            //     ['DESCRIPTION', 39.833333, -98.583333, 14]
+            // ];
+        
+            window.map = new google.maps.Map(document.getElementById('map'), {
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+        
+            var infowindow = new google.maps.InfoWindow();
+        
+            var bounds = new google.maps.LatLngBounds();
+            console.log(tourResultObj.length)
+        
+            for (i = 0; i < tourResultObj.length; i++) {
+                console.log('anything')
+                console.log(tourResultObj[i])
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(tourResultObj[i].latitude, tourResultObj[i].longitude),
+                    map: map
+                });
+        
+                bounds.extend(marker.position);
+        
+                // google.maps.event.addListener(marker, 'click', (function (marker, i) {
+                //     return function () {
+                //         infowindow.setContent(tourResultObj[i][0]);
+                //         infowindow.open(map, marker);
+                //     }
+                // })(marker, i));
+            }
+        
+            map.fitBounds(bounds);
 
     }
-    resultsMap();
+
+
+    //resultsMap();
+
         // map for point to point
         function initMap() {
             var directionsDisplay = new google.maps.DirectionsRenderer;
