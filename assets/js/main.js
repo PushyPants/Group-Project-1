@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    $('.artist-val').focus();
+
     let searchInput;
     let tourResultObj = [];
 
