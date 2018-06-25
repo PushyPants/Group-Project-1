@@ -281,23 +281,7 @@ $(document).ready(function () {
 
 
 
-    // MAPPING CODE
-    // events to test marker of results
-    var event1 = { event: "Albany Concert", lat: 42.667, lng: -73.75 };
-    var event2 = { event: "Albuquerque Concert", lat: 35.0833, lng: -106.65 };
-    var event3 = { event: "Amarilllo Concert", lat: 35.1833, lng: -101.833 };
-    var arrayOfEvents = [event1, event2, event3];
-    var event1Loc = { lat: event1.lat, lng: event1.lng };
-    // place holder variables for point to point directions
-    var start = {
-        lat: 29.743414,
-        lng: -95.392648
-    };
 
-    var end = {
-        lat: 30.266474,
-        lng: -97.740786
-    };
     // function to generate a map with markers for each result
     function resultsMap() {
         // var map = new google.maps.Map(document.getElementById('map'), {
@@ -376,6 +360,10 @@ $(document).ready(function () {
                 console.log(response);
             } else {
                 window.alert('Directions request failed due to ' + status);
+<<<<<<< HEAD
+=======
+
+>>>>>>> dfea13a73b3359200fbb40b61cbf639539a86d3f
                 }
             });
         }
@@ -389,15 +377,24 @@ $(document).ready(function () {
             //if (window.location.href.includes('search') {
                 //geocode !== undefined && user address/zip !== undefined
                     //if geo code exitst
-                        //use geo & populate map
+                    //use geo & populate map
+                    if (localStorage.currLat !== undefined) {
+                        userAddressLat = parseFloat(localStorage.currLat);
+                        userAddressLng = parseFloat(localStorage.currLong);
+                        console.log("geo location passed through: " + userAddressLat,userAddressLng)
+                        window.map = new google.maps.Map(document.getElementById('map'), {
+                            center: {lat: userAddressLat, lng: userAddressLng},
+                            zoom: 14,
+                            mapTypeId: google.maps.MapTypeId.ROADMAP
+                        })
+                        marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(userAddressLat,userAddressLng),
+                            map: map
+                        });
+                    }
                     //else
                         //use user input & populate map
-                // eles
-                    //request geolocation access again
-                        //if declined
-                            //modal to get user input
-                                //populate map
-                        //else
+                        else {
                             //use geo and populate map
                             $.ajax({
                                 url: `https://maps.googleapis.com/maps/api/geocode/json?address=`+ localStorage.address +`,`+ localStorage.city +`,`+ localStorage.state +`&key=AIzaSyByQ2vFELH2U1syRSBKWtQI_NKo-EBIjDI`,
@@ -417,7 +414,29 @@ $(document).ready(function () {
                                     map: map
                                 }); 
                             });
-            //}
+                        }   
+                // eles
+                    //request geolocation access again
+                        //if declined
+                            //modal to get user input
+                                //populate map
         //}
+<<<<<<< HEAD
+=======
+// Generic Function to generate a map with Lat, Lng for center and zoom.
+function generateSimpleMap (lat,lng,zoom){
+    window.map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: this.lat, lng: this.lng},
+        zoom: this.zoom,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    })
+    marker = new google.maps.Marker({
+        position: new google.maps.LatLng(this.lat,this.lng),
+        map: map
+    }); 
+
+}
+
+>>>>>>> dfea13a73b3359200fbb40b61cbf639539a86d3f
 
 });
