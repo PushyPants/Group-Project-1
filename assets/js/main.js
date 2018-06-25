@@ -133,7 +133,6 @@ $(document).ready(function () {
             $('.search-results').empty();
             console.log(searchInput);
 
-
             $.ajax({
                 //search for performers this returns all artists
                 url: `https://api.eventful.com/json/performers/search?app_key=dT9kBLwTGpSRrDZQ&keywords=` + searchInput,
@@ -377,9 +376,48 @@ $(document).ready(function () {
                 console.log(response);
             } else {
                 window.alert('Directions request failed due to ' + status);
-            }
-        });
-    }
+                }
+            });
+        }
+        
 
+        //function popMap (lat,lng,zoom) {
+
+        //}
+
+        //function startMap (userLocation){
+            //if (window.location.href.includes('search') {
+                //geocode !== undefined && user address/zip !== undefined
+                    //if geo code exitst
+                        //use geo & populate map
+                    //else
+                        //use user input & populate map
+                // eles
+                    //request geolocation access again
+                        //if declined
+                            //modal to get user input
+                                //populate map
+                        //else
+                            //use geo and populate map
+                            $.ajax({
+                                url: `https://maps.googleapis.com/maps/api/geocode/json?address=`+ localStorage.address +`,`+ localStorage.city +`,`+ localStorage.state +`&key=AIzaSyByQ2vFELH2U1syRSBKWtQI_NKo-EBIjDI`,
+                                method: 'GET',
+                                dataType: 'json',
+                            }).then(function(geoCodeResponse){
+                                userAddressLat = geoCodeResponse.results["0"].geometry.location.lat;
+                                userAddressLng = geoCodeResponse.results["0"].geometry.location.lng;
+                                console.log(userAddressLat,userAddressLng)
+                                window.map = new google.maps.Map(document.getElementById('map'), {
+                                    center: {lat: userAddressLat, lng: userAddressLng},
+                                    zoom: 14,
+                                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                                })
+                                marker = new google.maps.Marker({
+                                    position: new google.maps.LatLng(userAddressLat,userAddressLng),
+                                    map: map
+                                }); 
+                            });
+            //}
+        //}
 
 });
