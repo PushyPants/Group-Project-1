@@ -418,13 +418,18 @@ $(document).ready(function () {
         //function popMap (lat,lng,zoom) {
 
         //}
-
-        //function startMap (userLocation){
-            //if (window.location.href.includes('search') {
-                //geocode !== undefined && user address/zip !== undefined
+        console.log(localStorage.currLat)
+        console.log(localStorage.city)
+        console.log(localStorage.state)
+        //check if user geo location received either with geocode or user entry of addy info
+        if (localStorage.currLat == undefined && localStorage.city == undefined && localStorage.state == undefined) {
+            showModal();
+            console.log('all conditions met')
+        }   
+            //geocode !== undefined && user address/zip !== undefined
                     //if geo code exitst
                     //use geo & populate map
-                    if (localStorage.currLat !== undefined) {
+                    else if (localStorage.currLat !== undefined) {
                         userAddressLat = parseFloat(localStorage.currLat);
                         userAddressLng = parseFloat(localStorage.currLong);
                         console.log("geo location passed through: " + userAddressLat + userAddressLng)
