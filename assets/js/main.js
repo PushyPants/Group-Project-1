@@ -4,6 +4,8 @@ $(document).ready(function () {
 
     let searchInput;
     let tourResultObj = [];
+    let userAddressLat;
+    let userAddressLng;
 
     //This function will take the current object (placed in x) and modify the dom based on the objects contents
     function popArtistList(x) {
@@ -265,22 +267,31 @@ $(document).ready(function () {
 
     //this is so submit can send you to search.html
     $(document).on("click", "#submit-button", function () {
-        localStorage.clear();
-        //grabs values from input
-        var address = $("#address-in").val().trim();
-        var city = $("#city-in").val().trim();
-        var state = $("#state-in").val().trim();
-        var zipcode = $("#zip-in").val().trim();
-        //saves values from input and saves to local storage for us to use
-        localStorage.setItem("address", address);
-        localStorage.setItem("city", city);
-        localStorage.setItem("state", state);
-        localStorage.setItem("zipcode", zipcode);
-        console.log(city + " " + state + " " + zipcode);
+        if ($('#state-in').val() == '') {
+            console.log('must enter state')
+            $('.alert-container').fadeIn();
+            setTimeout(() => {
+                $('.alert-container').fadeOut();
+            }, 2000);
+        } else {
+
+            localStorage.clear();
+            //grabs values from input
+            var address = $("#address-in").val().trim();
+            var city = $("#city-in").val().trim();
+            var state = $("#state-in").val().trim();
+            var zipcode = $("#zip-in").val().trim();
+            //saves values from input and saves to local storage for us to use
+            localStorage.setItem("address", address);
+            localStorage.setItem("city", city);
+            localStorage.setItem("state", state);
+            localStorage.setItem("zipcode", zipcode);
+            console.log(city + " " + state + " " + zipcode);
 
 
-        var newUrl = "search.html";
-        window.location.replace(newUrl);
+            var newUrl = "search.html";
+            window.location.replace(newUrl);
+        }
     });
 
 
