@@ -45,6 +45,7 @@ $(document).ready(function () {
         //click function to populate map from multiple bands
         $('#' + x.id).on("click", function () {
             console.log("Tour info my guy");
+            $('.search-results').empty(); //<<<<empty right on click
             $.ajax({
                 url: 'http://api.eventful.com/json/performers/events/list?app_key=dT9kBLwTGpSRrDZQ&id=' + x.id,
                 method: 'GET',
@@ -54,6 +55,12 @@ $(document).ready(function () {
                 console.log(tourInfo);
                 if (tourInfo.event_count === "0") {
                     console.log("no tours :(");
+                    //if no tour have a pop up?? 
+
+
+
+
+
                 }
                 else {
                     //I want to put events on map
@@ -64,7 +71,7 @@ $(document).ready(function () {
                     var infowindow = new google.maps.InfoWindow();//info after clicking marker                 
                     var bounds = new google.maps.LatLngBounds();//fits map correctly
                     //one more ajax call to get lat and long
-                    console.log("we got concerts bruh"); //event.id
+                    console.log("we got concerts"); //event.id
                     //grab each event
                     $.each(tourInfo.event, function () {
                         $.ajax({
@@ -75,6 +82,39 @@ $(document).ready(function () {
                             console.log("----------------------------------")
                             console.log(details); //correctly grabbing each separate event and their info
 
+
+
+                            ///////////////////////////////////////////////////////////////////////////////
+                            //here is where I want to grab each event, put in a div and populate the div to .search results//
+
+                            var tourDiv = $('<div>');
+                            let imgCol = $('<div style= "float: left">').attr({ class: 'col-sm-2 mx-auto img-col' });
+                            let resImg = $('<img>').attr({
+                                class: 'res-image img-fluid mx-auto',
+                                src: details.images.image["0"].medium.url,
+                            });
+                            let tourCityVenue = $('<div>').attr({ class: 'row title-row text-center' }); //div for city and venue
+                            let tourCity = $('<h3>').attr({ class: 'text-center' });
+                            let tourVenue = $('<h4>').attr({ class: 'text-center' });
+                            tourCity.text("Where: " +details.city +", "+details.region);
+                            tourVenue.text("at: " +details.address +", "+details.venue_name);
+                            tourCityVenue.append(tourCity);
+                            tourCityVenue.append(tourVenue);
+
+
+                            
+
+                            imgCol.append(resImg);
+                            tourDiv.append(imgCol);
+                            tourDiv.append(tourCityVenue);
+                            
+                            
+                            //details.images.image["0"].medium.url
+                            $('.search-results').append(tourDiv);
+                            /////////////////////////////////////////////////////////////////////////////
+
+
+
                             //mark out the map
                             marker = new google.maps.Marker({
                                 position: new google.maps.LatLng(details.latitude, details.longitude),
@@ -83,8 +123,8 @@ $(document).ready(function () {
                             bounds.extend(marker.position);
                             map.fitBounds(bounds);
 
-                             // below is your marker info
-                             let windowContent = `
+                            // below is your marker info
+                            let windowContent = `
                              <div class="row wc-content">
                                  <div class="col-md-3">
                                      <img class="img-circle wc-image" src="`+ details.images.image["0"].small.url + `">
@@ -99,15 +139,17 @@ $(document).ready(function () {
                                  </div>
                              </div>
                              `
-                             //click event for marker
-                             google.maps.event.addListener(marker, 'click', (function (marker) {
-                                 return function () {
-                                     infowindow.setContent(windowContent);
-                                     infowindow.open(map, marker);
-                                 }
-                             })(marker));
+                            //click event for marker
+                            google.maps.event.addListener(marker, 'click', (function (marker) {
+                                return function () {
+                                    infowindow.setContent(windowContent);
+                                    infowindow.open(map, marker);
+                                }
+                            })(marker));
 
-                           
+
+
+
 
 
 
@@ -281,7 +323,23 @@ $(document).ready(function () {
 
 
 
+    // MAPPING CODE
+    // events to test marker of results
+    var event1 = { event: "Albany Concert", lat: 42.667, lng: -73.75 };
+    var event2 = { event: "Albuquerque Concert", lat: 35.0833, lng: -106.65 };
+    var event3 = { event: "Amarilllo Concert", lat: 35.1833, lng: -101.833 };
+    var arrayOfEvents = [event1, event2, event3];
+    var event1Loc = { lat: event1.lat, lng: event1.lng };
+    // place holder variables for point to point directions
+    var start = {
+        lat: 29.743414,
+        lng: -95.392648
+    };
 
+    var end = {
+        lat: 30.266474,
+        lng: -97.740786
+    };
     // function to generate a map with markers for each result
     function resultsMap() {
         // var map = new google.maps.Map(document.getElementById('map'), {
@@ -360,83 +418,48 @@ $(document).ready(function () {
                 console.log(response);
             } else {
                 window.alert('Directions request failed due to ' + status);
-<<<<<<< HEAD
-=======
+            }
+        });
+    }
 
->>>>>>> dfea13a73b3359200fbb40b61cbf639539a86d3f
-                }
-            });
-        }
-        
 
-        //function popMap (lat,lng,zoom) {
+    //function popMap (lat,lng,zoom) {
 
-        //}
+    //}
 
-        //function startMap (userLocation){
-            //if (window.location.href.includes('search') {
-                //geocode !== undefined && user address/zip !== undefined
-                    //if geo code exitst
-                    //use geo & populate map
-                    if (localStorage.currLat !== undefined) {
-                        userAddressLat = parseFloat(localStorage.currLat);
-                        userAddressLng = parseFloat(localStorage.currLong);
-                        console.log("geo location passed through: " + userAddressLat,userAddressLng)
-                        window.map = new google.maps.Map(document.getElementById('map'), {
-                            center: {lat: userAddressLat, lng: userAddressLng},
-                            zoom: 14,
-                            mapTypeId: google.maps.MapTypeId.ROADMAP
-                        })
-                        marker = new google.maps.Marker({
-                            position: new google.maps.LatLng(userAddressLat,userAddressLng),
-                            map: map
-                        });
-                    }
-                    //else
-                        //use user input & populate map
-                        else {
-                            //use geo and populate map
-                            $.ajax({
-                                url: `https://maps.googleapis.com/maps/api/geocode/json?address=`+ localStorage.address +`,`+ localStorage.city +`,`+ localStorage.state +`&key=AIzaSyByQ2vFELH2U1syRSBKWtQI_NKo-EBIjDI`,
-                                method: 'GET',
-                                dataType: 'json',
-                            }).then(function(geoCodeResponse){
-                                userAddressLat = geoCodeResponse.results["0"].geometry.location.lat;
-                                userAddressLng = geoCodeResponse.results["0"].geometry.location.lng;
-                                console.log(userAddressLat,userAddressLng)
-                                window.map = new google.maps.Map(document.getElementById('map'), {
-                                    center: {lat: userAddressLat, lng: userAddressLng},
-                                    zoom: 14,
-                                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                                })
-                                marker = new google.maps.Marker({
-                                    position: new google.maps.LatLng(userAddressLat,userAddressLng),
-                                    map: map
-                                }); 
-                            });
-                        }   
-                // eles
-                    //request geolocation access again
-                        //if declined
-                            //modal to get user input
-                                //populate map
-        //}
-<<<<<<< HEAD
-=======
-// Generic Function to generate a map with Lat, Lng for center and zoom.
-function generateSimpleMap (lat,lng,zoom){
-    window.map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: this.lat, lng: this.lng},
-        zoom: this.zoom,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-    })
-    marker = new google.maps.Marker({
-        position: new google.maps.LatLng(this.lat,this.lng),
-        map: map
-    }); 
-
-}
-
->>>>>>> dfea13a73b3359200fbb40b61cbf639539a86d3f
+    //function startMap (userLocation){
+    //if (window.location.href.includes('search') {
+    //geocode !== undefined && user address/zip !== undefined
+    //if geo code exitst
+    //use geo & populate map
+    //else
+    //use user input & populate map
+    // eles
+    //request geolocation access again
+    //if declined
+    //modal to get user input
+    //populate map
+    //else
+    //use geo and populate map
+    $.ajax({
+        url: `https://maps.googleapis.com/maps/api/geocode/json?address=` + localStorage.address + `,` + localStorage.city + `,` + localStorage.state + `&key=AIzaSyByQ2vFELH2U1syRSBKWtQI_NKo-EBIjDI`,
+        method: 'GET',
+        dataType: 'json',
+    }).then(function (geoCodeResponse) {
+        userAddressLat = geoCodeResponse.results["0"].geometry.location.lat;
+        userAddressLng = geoCodeResponse.results["0"].geometry.location.lng;
+        console.log(userAddressLat, userAddressLng)
+        window.map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: userAddressLat, lng: userAddressLng },
+            zoom: 14,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        })
+        marker = new google.maps.Marker({
+            position: new google.maps.LatLng(userAddressLat, userAddressLng),
+            map: map
+        });
+    });
+    //}
+    //}
 
 });
