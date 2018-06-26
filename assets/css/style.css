@@ -116,3 +116,7 @@ background: none;
       min-height: 50px;
       
   }
+
+  #myModal button.close {
+      display: none;
+  }
