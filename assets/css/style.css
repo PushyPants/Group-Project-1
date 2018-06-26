@@ -116,3 +116,6 @@ background: none;
       min-height: 50px;
       
   }
+  .search-results{
+      overflow: auto;
+  }

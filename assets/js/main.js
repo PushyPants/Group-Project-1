@@ -94,16 +94,20 @@ $(document).ready(function () {
                                 src: details.images.image["0"].medium.url,
                             });
                             let tourCityVenue = $('<div>').attr({ class: 'row title-row text-center' }); //div for city and venue
-                            let tourCity = $('<h3>').attr({ class: 'text-center' });
-                            let tourVenue = $('<h4>').attr({ class: 'text-center' });
-                            tourCity.text("Where: " +details.city +", "+details.region);
-                            tourVenue.text("at: " +details.address +", "+details.venue_name);
+                            let tourTitle = $('<h4>').attr({class: 'text-center'});
+                            let tourCity = $('<h5>').attr({ class: 'text-center' });
+                            let tourVenue = $('<h6>').attr({ class: 'text-center' });
+                            tourTitle.text(details.title );
+                            tourCity.text(details.city +", "+details.region);
+                            tourVenue.text(details.address +", "+details.venue_name + " at: "+ details.start_time);
+                            tourCityVenue.append(tourTitle);
                             tourCityVenue.append(tourCity);
                             tourCityVenue.append(tourVenue);
+                            //moment(details.start_time).toJDFString("DD.MM.YYYY")  returns the Java format pattern "dd.MM.yyyy"
 
 
                             
-
+                            
                             imgCol.append(resImg);
                             tourDiv.append(imgCol);
                             tourDiv.append(tourCityVenue);
