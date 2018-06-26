@@ -4,6 +4,8 @@ $(document).ready(function () {
 
     let searchInput;
     let tourResultObj = [];
+    let userAddressLat;
+    let userAddressLng;
 
     //This function will take the current object (placed in x) and modify the dom based on the objects contents
     function popArtistList(x) {
@@ -273,51 +275,64 @@ $(document).ready(function () {
 
     //this is pertaining to the modal on the splash page <plz do not delete my dudes>
     $(window).on('load', function () {
-        $('#myModal').modal('show');
+        showModal();
     });
     //this is so nav icon can be clickable
-    $(document).on("click", "#locate-button", function () {
-        localStorage.clear();
-        console.log("clicked locate-button"); //click is functioning
-        if ("geolocation" in navigator) { //check geolocation available 
-            //try to get user current location using getCurrentPosition() method
-            navigator.geolocation.getCurrentPosition(function (position) {
-                console.log("Found your location \nLat : " + position.coords.latitude + " \nLong :" + position.coords.longitude);
-                var currLat = position.coords.latitude;
-                var currLong = position.coords.longitude;
-                //here we store these variables into localStorage (because we can use this info for google maps)
-                localStorage.setItem("currLat", currLat);
-                localStorage.setItem("currLong", currLong);
-                var newUrl = "search.html";
-                window.location.replace(newUrl);
-                //to use coordinates with google maps, make sure you use localStorage.currLong or localStorage.currLat
-            });
-        } else {
-            console.log("Browser doesn't support geolocation!");
-        }
-    });
+    function showModal(){
+        $('#myModal').modal({backdrop: 'static', keyboard: false , show: true});
+
+        $(document).on("click", "#locate-button", function () {
+            localStorage.clear();
+            console.log("clicked locate-button"); //click is functioning
+            if ("geolocation" in navigator) { //check geolocation available 
+                //try to get user current location using getCurrentPosition() method
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    console.log("Found your location \nLat : " + position.coords.latitude + " \nLong :" + position.coords.longitude);
+                    var currLat = position.coords.latitude;
+                    var currLong = position.coords.longitude;
+                    //here we store these variables into localStorage (because we can use this info for google maps)
+                    localStorage.setItem("currLat", currLat);
+                    localStorage.setItem("currLong", currLong);
+                    var newUrl = "search.html";
+                    window.location.replace(newUrl);
+                    //to use coordinates with google maps, make sure you use localStorage.currLong or localStorage.currLat
+                });
+            } else {
+                console.log("Browser doesn't support geolocation!");
+            }
+        });
+    }
     //check if variable exists outside clicks (hence, saved in Local)
     console.log("local storage has " + localStorage.currLat + " " + localStorage.currLong);
     console.log("local storage : \n address is " + localStorage.address + " \n city is " + localStorage.city + "\n state is " + localStorage.state + "\n zip is " + localStorage.zipcode);
 
     //this is so submit can send you to search.html
     $(document).on("click", "#submit-button", function () {
-        localStorage.clear();
-        //grabs values from input
-        var address = $("#address-in").val().trim();
-        var city = $("#city-in").val().trim();
-        var state = $("#state-in").val().trim();
-        var zipcode = $("#zip-in").val().trim();
-        //saves values from input and saves to local storage for us to use
-        localStorage.setItem("address", address);
-        localStorage.setItem("city", city);
-        localStorage.setItem("state", state);
-        localStorage.setItem("zipcode", zipcode);
-        console.log(city + " " + state + " " + zipcode);
+        if ($('#state-in').val() == '') {
+            console.log('must enter state')
+            $('.alert-container').fadeIn();
+            setTimeout(() => {
+                $('.alert-container').fadeOut();
+            }, 2000);
+        } else {
+
+            localStorage.clear();
+            //grabs values from input
+            var address = $("#address-in").val().trim();
+            var city = $("#city-in").val().trim();
+            var state = $("#state-in").val().trim();
+            var zipcode = $("#zip-in").val().trim();
+            //saves values from input and saves to local storage for us to use
+            localStorage.setItem("address", address);
+            localStorage.setItem("city", city);
+            localStorage.setItem("state", state);
+            localStorage.setItem("zipcode", zipcode);
+            console.log(city + " " + state + " " + zipcode);
 
 
-        var newUrl = "search.html";
-        window.location.replace(newUrl);
+            var newUrl = "search.html";
+            window.location.replace(newUrl);
+        }
     });
 
 
@@ -342,22 +357,6 @@ $(document).ready(function () {
     };
     // function to generate a map with markers for each result
     function resultsMap() {
-        // var map = new google.maps.Map(document.getElementById('map'), {
-        //     zoom: 4,
-        //     //change to users stored location value
-        //     center: {lat: 39.833333, lng:-98.583333}
-        // });
-
-
-        /******* LOOP AND RECENTER MAP TO BOUNDS *******/
-
-        // var locations = [
-        //     ['DESCRIPTION', 41.926979, 12.517385, 3],
-        //     ['DESCRIPTION', 41.914873, 12.506486, 2],
-        //     ['DESCRIPTION', 61.918574, 12.507201, 1],
-        //     ['DESCRIPTION', 39.833333, -98.583333, 14]
-        // ];
-
         window.map = new google.maps.Map(document.getElementById('map'), {
             mapTypeId: google.maps.MapTypeId.ROADMAP
         });
@@ -376,13 +375,6 @@ $(document).ready(function () {
             });
 
             bounds.extend(marker.position);
-
-            // google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            //     return function () {
-            //         infowindow.setContent(tourResultObj[i][0]);
-            //         infowindow.open(map, marker);
-            //     }
-            // })(marker, i));
         }
 
         map.fitBounds(bounds);
@@ -421,7 +413,73 @@ $(document).ready(function () {
             }
         });
     }
+        
 
+        //function popMap (lat,lng,zoom) {
+
+        //}
+
+        //function startMap (userLocation){
+            //if (window.location.href.includes('search') {
+                //geocode !== undefined && user address/zip !== undefined
+                    //if geo code exitst
+                    //use geo & populate map
+                    if (localStorage.currLat !== undefined) {
+                        userAddressLat = parseFloat(localStorage.currLat);
+                        userAddressLng = parseFloat(localStorage.currLong);
+                        console.log("geo location passed through: " + userAddressLat + userAddressLng)
+                        window.map = new google.maps.Map(document.getElementById('map'), {
+                            center: {lat: userAddressLat, lng: userAddressLng},
+                            zoom: 14,
+                            mapTypeId: google.maps.MapTypeId.ROADMAP
+                        })
+                        marker = new google.maps.Marker({
+                            position: new google.maps.LatLng(userAddressLat,userAddressLng),
+                            map: map
+                        });
+                    }
+                    //else
+                        //use user input & populate map
+                        else {
+                            //use geo and populate map
+                            $.ajax({
+                                url: `https://maps.googleapis.com/maps/api/geocode/json?address=`+ localStorage.address +`,`+ localStorage.city +`,`+ localStorage.state +`&key=AIzaSyByQ2vFELH2U1syRSBKWtQI_NKo-EBIjDI`,
+                                method: 'GET',
+                                dataType: 'json',
+                            }).then(function(geoCodeResponse){
+                                userAddressLat = geoCodeResponse.results["0"].geometry.location.lat;
+                                userAddressLng = geoCodeResponse.results["0"].geometry.location.lng;
+                                console.log(userAddressLat,userAddressLng)
+                                window.map = new google.maps.Map(document.getElementById('map'), {
+                                    center: {lat: userAddressLat, lng: userAddressLng},
+                                    zoom: 14,
+                                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                                })
+                                marker = new google.maps.Marker({
+                                    position: new google.maps.LatLng(userAddressLat,userAddressLng),
+                                    map: map
+                                }); 
+                            });
+                        }   
+                // eles
+                    //request geolocation access again
+                        //if declined
+                            //modal to get user input
+                                //populate map
+        //}
+// Generic Function to generate a map with Lat, Lng for center and zoom.
+function generateSimpleMap (lat,lng,zoom){
+    window.map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: this.lat, lng: this.lng},
+        zoom: this.zoom,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    })
+    marker = new google.maps.Marker({
+        position: new google.maps.LatLng(this.lat,this.lng),
+        map: map
+    }); 
+
+}
 
     //function popMap (lat,lng,zoom) {
 
