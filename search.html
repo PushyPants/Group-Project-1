@@ -58,5 +58,64 @@
           <div id="map"></div>
       </div>
     </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered " role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">First, a little information about yourself</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <!-- input form goes here -->
+        <form>
+
+
+          <div class="form-group" style="padding:0;">
+            <label for="form-rowInput">Address</label>
+            <div class="w-100">
+              <input type="text" id="address-in" class="form-control" placeholder="Address" autocomplete="address">
+
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="form-rowInput">City, State, and Zip</label>
+
+            <div class="form-row">
+              <div class="col-7">
+                <input type="text" id="city-in" class="form-control" placeholder="City" autocomplete="city">
+              </div>
+              <div class="col">
+                <input type="text" id="state-in" class="form-control" placeholder="State" autocomplete="state">
+              </div>
+              <div class="col">
+                <input type="text" id="zip-in" class="form-control" placeholder="Zip" autocomplete="postal-code" required>
+              </div>
+            </div>
+          </div>
+        </form>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <div class="col" style="padding:0;">
+          <button type="button" class="btn" id="locate-button">
+            <i class="material-icons"> not_listed_location </i>
+          </button> Click to make things easier!
+
+        </div>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" id="submit-button" class="btn btn-primary">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   </body>
 </html>
