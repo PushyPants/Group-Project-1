@@ -6,9 +6,16 @@ $(document).ready(function () {
     let tourResultObj = [];
     let userAddressLat;
     let userAddressLng;
+    let eventCounter = 0;
 
     //This function will take the current object (placed in x) and modify the dom based on the objects contents
     function popArtistList(x) {
+        
+        console.log(x)
+        if(x.event_count == 0) {
+            //nothing
+        } else {
+        eventCounter += 1
         if (x.image === null) {
             artistImage = 'https://i.pinimg.com/originals/55/04/f9/5504f9e91eea2dd858e595845142c7da.jpg'
         } else {
@@ -84,7 +91,7 @@ $(document).ready(function () {
                             ///////////////////////////////////////////////////////////////////////////////
                             //here is where I want to grab each event, put in a div and populate the div to .search results//
                             
-
+                            
 
 
                             let tourRow = $('<div>').attr({ 
@@ -169,11 +176,14 @@ $(document).ready(function () {
                 }
             });
         });
+        }
     }
 
     function performSearch() {
         $('#artist-search').submit(function (event) {
             event.preventDefault();
+            eventCounter = 0;
+            setInitialMap();
             searchInput = $('.artist-val').val().trim().split(' ').join('+').toLowerCase();
             $('.artist-val').val('');
             $('.search-results').empty();
@@ -191,6 +201,10 @@ $(document).ready(function () {
                 if (performersAmt > 1) {
                     $.each(performersObj, function () {
                         popArtistList(this);
+
+                        if (eventCounter == 0){
+                            $('.search-results').text('Not on tour at this time')
+                        }
                     })
                 } else {
                     //new blank map
@@ -355,33 +369,17 @@ $(document).ready(function () {
         });
     }
    
+    setInitialMap();
 
     //if user manages to get to this page without submitting geo info, it asks for it again
-    if (window.location.href.includes('search') && localStorage.currLat == undefined && localStorage.state == undefined) {
-        showModal();
-        console.log('all conditions met')
-    } else if (localStorage.currLat !== undefined) { //else if geo data from button exists, use that
-        userAddressLat = parseFloat(localStorage.currLat);
-        userAddressLng = parseFloat(localStorage.currLong);
-        console.log("geo location passed through: " + userAddressLat + userAddressLng)
-        window.map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: userAddressLat, lng: userAddressLng},
-            zoom: 14,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        })
-        marker = new google.maps.Marker({
-            position: new google.maps.LatLng(userAddressLat,userAddressLng),
-            map: map
-        });
-    } else { //else use user input & populate map
-        $.ajax({
-            url: `https://maps.googleapis.com/maps/api/geocode/json?address=`+ localStorage.address +`,`+ localStorage.city +`,`+ localStorage.state +`&key=AIzaSyByQ2vFELH2U1syRSBKWtQI_NKo-EBIjDI`,
-            method: 'GET',
-            dataType: 'json',
-        }).then(function(geoCodeResponse){
-            userAddressLat = geoCodeResponse.results["0"].geometry.location.lat;
-            userAddressLng = geoCodeResponse.results["0"].geometry.location.lng;
-            console.log(userAddressLat,userAddressLng)
+    function setInitialMap() {
+        if (window.location.href.includes('search') && localStorage.currLat == undefined && localStorage.state == undefined) {
+            showModal();
+            console.log('all conditions met')
+        } else if (localStorage.currLat !== undefined) { //else if geo data from button exists, use that
+            userAddressLat = parseFloat(localStorage.currLat);
+            userAddressLng = parseFloat(localStorage.currLong);
+            console.log("geo location passed through: " + userAddressLat + userAddressLng)
             window.map = new google.maps.Map(document.getElementById('map'), {
                 center: {lat: userAddressLat, lng: userAddressLng},
                 zoom: 14,
@@ -390,8 +388,27 @@ $(document).ready(function () {
             marker = new google.maps.Marker({
                 position: new google.maps.LatLng(userAddressLat,userAddressLng),
                 map: map
-            }); 
-        });
-    }   
+            });
+        } else { //else use user input & populate map
+            $.ajax({
+                url: `https://maps.googleapis.com/maps/api/geocode/json?address=`+ localStorage.address +`,`+ localStorage.city +`,`+ localStorage.state +`&key=AIzaSyByQ2vFELH2U1syRSBKWtQI_NKo-EBIjDI`,
+                method: 'GET',
+                dataType: 'json',
+            }).then(function(geoCodeResponse){
+                userAddressLat = geoCodeResponse.results["0"].geometry.location.lat;
+                userAddressLng = geoCodeResponse.results["0"].geometry.location.lng;
+                console.log(userAddressLat,userAddressLng)
+                window.map = new google.maps.Map(document.getElementById('map'), {
+                    center: {lat: userAddressLat, lng: userAddressLng},
+                    zoom: 14,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                })
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(userAddressLat,userAddressLng),
+                    map: map
+                }); 
+            });
+        }   
+    }
 
 });
