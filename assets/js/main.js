@@ -4,6 +4,8 @@ $(document).ready(function () {
 
     let searchInput;
     let tourResultObj = [];
+    let userAddressLat;
+    let userAddressLng;
 
     //This function will take the current object (placed in x) and modify the dom based on the objects contents
     function popArtistList(x) {
@@ -25,7 +27,7 @@ $(document).ready(function () {
             src: artistImage,
         });
         let contentCol = $('<div>').attr({ class: 'col-sm-8 res-content text-center' });
-        let resTitleRow = $('<div>').attr({ class: 'row title-row text-center' })
+        let resTitleRow = $('<div>').attr({ class: 'row title-row text-center' });
         let resTitle = $('<h2>').attr({ class: 'text-center' });
         let resBodyRow = $('<div>').attr({ class: 'row res-body-row text-left' });
         let resLocation = $('<h3>').attr({ class: 'text-left' });
@@ -56,11 +58,6 @@ $(document).ready(function () {
                 if (tourInfo.event_count === "0") {
                     console.log("no tours :(");
                     //if no tour have a pop up?? 
-
-
-
-
-
                 }
                 else {
                     //I want to put events on map
@@ -86,35 +83,77 @@ $(document).ready(function () {
 
                             ///////////////////////////////////////////////////////////////////////////////
                             //here is where I want to grab each event, put in a div and populate the div to .search results//
+                            
 
-                            var tourDiv = $('<div>');
-                            let imgCol = $('<div style= "float: left">').attr({ class: 'col-sm-2 mx-auto img-col' });
+
+
+                            let tourRow = $('<div>').attr({ 
+                                class: 'res-row row',
+                                id : details.id,
+                                'data-lat': details.latitude,
+                                'data-lng': details.longitude,
+                            });
+
+                            let imgCol = $('<div>').attr({ class: 'col-sm-2 mx-auto img-col' });
                             let resImg = $('<img>').attr({
                                 class: 'res-image img-fluid mx-auto',
                                 src: details.images.image["0"].medium.url,
                             });
-                            let tourCityVenue = $('<div>').attr({ class: 'row title-row text-center' }); //div for city and venue
-                            let tourTitle = $('<h4>').attr({class: 'text-center'});
-                            let tourCity = $('<h5>').attr({ class: 'text-center' });
-                            let tourVenue = $('<h6>').attr({ class: 'text-center' });
-                            tourTitle.text(details.title );
-                            tourCity.text(details.city +", "+details.region);
-                            tourVenue.text(details.address +", "+details.venue_name + " at: "+ details.start_time);
-                            tourCityVenue.append(tourTitle);
-                            tourCityVenue.append(tourCity);
-                            tourCityVenue.append(tourVenue);
-                            //moment(details.start_time).toJDFString("DD.MM.YYYY")  returns the Java format pattern "dd.MM.yyyy"
+                            let tourContentCol = $('<div>').attr({ class: 'col-sm-8 res-content text-center' });
 
+                            let tourTitleRow = $('<div>').attr({ class: 'row title-row text-center' })
+                            let tourTitle = $('<h2>').attr({ class: 'text-center' });
+                            let tourBodyRow = $('<div>').attr({ class: 'row res-body-row text-left' });
+                            let tourLocation = $('<h3>').attr({ class: 'text-left' });
+                            let dateCol = $('<div>').attr({ class: 'col-sm-2 res-date text-center' });
+                            let tourDate = $('<h4>');
 
-                            
-                            
+                            $('.search-results').append(tourRow);
+                            tourRow.append(imgCol);
                             imgCol.append(resImg);
-                            tourDiv.append(imgCol);
-                            tourDiv.append(tourCityVenue);
+                            tourRow.append(contentCol);
+                            contentCol.append(tourTitleRow);
+                            tourTitleRow.append(tourTitle);
+                            tourTitle.text(details.title);
+                            tourContentCol.append(tourBodyRow);
+                            tourBodyRow.append(tourLocation);
+                            tourLocation.text(details.city+", " + details.region + ": " + details.venue_name);
+                            tourRow.append(dateCol);
+                            dateCol.append(tourDate);
+                            tourDate.text(detail.start_time);
+
+
+
+
+                            // var tourDiv = $('<div>');
+                            // let imgCol = $('<div style= "float: left">').attr({ class: 'col-sm-2 mx-auto img-col' });
+                            // let resImg = $('<img>').attr({
+                            //     class: 'res-image img-fluid mx-auto',
+                            //     src: details.images.image["0"].medium.url,
+                            // });
+
+                            // let tourCityVenue = $('<div>').attr({ class: 'row title-row text-center' });
+                            // let tourTitle = $('<h4>').attr({class: 'text-center'});
+                            // let tourCity = $('<h5>').attr({ class: 'text-center' });
+                            // let tourVenue = $('<h6>').attr({ class: 'text-center' });
+                            // tourTitle.text(details.title );
+                            // tourCity.text(details.city +", "+details.region);
+                            // tourVenue.text(details.address +", "+details.venue_name + " at: "+ details.start_time);
+                            // tourCityVenue.append(tourTitle);
+                            // tourCityVenue.append(tourCity);
+                            // tourCityVenue.append(tourVenue);
+                            // moment(details.start_time).toJDFString("DD.MM.YYYY")  returns the Java format pattern "dd.MM.yyyy"
+
+
+                            
+                            
+                            // imgCol.append(resImg);
+                            // tourDiv.append(imgCol);
+                            // tourDiv.append(tourCityVenue);
                             
                             
                             //details.images.image["0"].medium.url
-                            $('.search-results').append(tourDiv);
+                            // $('.search-results').append(tourDiv);
                             /////////////////////////////////////////////////////////////////////////////
 
 
@@ -151,23 +190,10 @@ $(document).ready(function () {
                                 }
                             })(marker));
 
-
-
-
-
-
-
                         });
-
-
-
                     });
-
                 }
-
-
             });
-
         });
     }
 
@@ -253,149 +279,83 @@ $(document).ready(function () {
                                 })(marker));
                             })
                         })
-                        //change timeout to somehow wait till each loop is finished
-                        // setTimeout(function(){
-                        //     resultsMap()
-                        //     console.log(tourResultObj)
-                        // },10000);
-                        // console.log(tourResultObj);
                     })
 
                 }
 
             })
         })
-
-        //if results return more tha one artist 
-        //loop trough change the dom to list all artists
-        //on click of particular artist repopulate list with tour dates
-        //else 
-        //update DOM with list of tour dates
     }
     performSearch();
 
 
     //this is pertaining to the modal on the splash page <plz do not delete my dudes>
     $(window).on('load', function () {
-        $('#myModal').modal('show');
-    });
-    //this is so nav icon can be clickable
-    $(document).on("click", "#locate-button", function () {
-        localStorage.clear();
-        console.log("clicked locate-button"); //click is functioning
-        if ("geolocation" in navigator) { //check geolocation available 
-            //try to get user current location using getCurrentPosition() method
-            navigator.geolocation.getCurrentPosition(function (position) {
-                console.log("Found your location \nLat : " + position.coords.latitude + " \nLong :" + position.coords.longitude);
-                var currLat = position.coords.latitude;
-                var currLong = position.coords.longitude;
-                //here we store these variables into localStorage (because we can use this info for google maps)
-                localStorage.setItem("currLat", currLat);
-                localStorage.setItem("currLong", currLong);
-                var newUrl = "search.html";
-                window.location.replace(newUrl);
-                //to use coordinates with google maps, make sure you use localStorage.currLong or localStorage.currLat
-            });
-        } else {
-            console.log("Browser doesn't support geolocation!");
+        if(window.location.href.includes('index')) {
+        showModal();
         }
     });
+
+    //this is so nav icon can be clickable
+    function showModal(){
+        $('#myModal').modal({backdrop: 'static', keyboard: false , show: true});
+
+        $(document).on("click", "#locate-button", function () {
+            localStorage.clear();
+            console.log("clicked locate-button"); //click is functioning
+            if ("geolocation" in navigator) { //check geolocation available 
+                //try to get user current location using getCurrentPosition() method
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    console.log("Found your location \nLat : " + position.coords.latitude + " \nLong :" + position.coords.longitude);
+                    var currLat = position.coords.latitude;
+                    var currLong = position.coords.longitude;
+                    //here we store these variables into localStorage (because we can use this info for google maps)
+                    localStorage.setItem("currLat", currLat);
+                    localStorage.setItem("currLong", currLong);
+                    var newUrl = "search.html";
+                    window.location.replace(newUrl);
+                    //to use coordinates with google maps, make sure you use localStorage.currLong or localStorage.currLat
+                });
+            } else {
+                console.log("Browser doesn't support geolocation!");
+            }
+        });
+    }
     //check if variable exists outside clicks (hence, saved in Local)
     console.log("local storage has " + localStorage.currLat + " " + localStorage.currLong);
     console.log("local storage : \n address is " + localStorage.address + " \n city is " + localStorage.city + "\n state is " + localStorage.state + "\n zip is " + localStorage.zipcode);
 
     //this is so submit can send you to search.html
     $(document).on("click", "#submit-button", function () {
-        localStorage.clear();
-        //grabs values from input
-        var address = $("#address-in").val().trim();
-        var city = $("#city-in").val().trim();
-        var state = $("#state-in").val().trim();
-        var zipcode = $("#zip-in").val().trim();
-        //saves values from input and saves to local storage for us to use
-        localStorage.setItem("address", address);
-        localStorage.setItem("city", city);
-        localStorage.setItem("state", state);
-        localStorage.setItem("zipcode", zipcode);
-        console.log(city + " " + state + " " + zipcode);
 
+        if ($('#state-in').val() == '') {
+            console.log('must enter state')
+            $('.alert-container').fadeIn();
+            setTimeout(() => {
+                $('.alert-container').fadeOut();
+            }, 2000);
 
-        var newUrl = "search.html";
-        window.location.replace(newUrl);
-    });
+        } else {
 
+            localStorage.clear();
+            //grabs values from input
+            var address = $("#address-in").val().trim();
+            var city = $("#city-in").val().trim();
+            var state = $("#state-in").val().trim();
+            var zipcode = $("#zip-in").val().trim();
+            //saves values from input and saves to local storage for us to use
+            localStorage.setItem("address", address);
+            localStorage.setItem("city", city);
+            localStorage.setItem("state", state);
+            localStorage.setItem("zipcode", zipcode);
+            console.log(city + " " + state + " " + zipcode);
 
+            var newUrl = "search.html";
+            window.location.replace(newUrl);
 
-
-    // MAPPING CODE
-    // events to test marker of results
-    var event1 = { event: "Albany Concert", lat: 42.667, lng: -73.75 };
-    var event2 = { event: "Albuquerque Concert", lat: 35.0833, lng: -106.65 };
-    var event3 = { event: "Amarilllo Concert", lat: 35.1833, lng: -101.833 };
-    var arrayOfEvents = [event1, event2, event3];
-    var event1Loc = { lat: event1.lat, lng: event1.lng };
-    // place holder variables for point to point directions
-    var start = {
-        lat: 29.743414,
-        lng: -95.392648
-    };
-
-    var end = {
-        lat: 30.266474,
-        lng: -97.740786
-    };
-    // function to generate a map with markers for each result
-    function resultsMap() {
-        // var map = new google.maps.Map(document.getElementById('map'), {
-        //     zoom: 4,
-        //     //change to users stored location value
-        //     center: {lat: 39.833333, lng:-98.583333}
-        // });
-
-
-        /******* LOOP AND RECENTER MAP TO BOUNDS *******/
-
-        // var locations = [
-        //     ['DESCRIPTION', 41.926979, 12.517385, 3],
-        //     ['DESCRIPTION', 41.914873, 12.506486, 2],
-        //     ['DESCRIPTION', 61.918574, 12.507201, 1],
-        //     ['DESCRIPTION', 39.833333, -98.583333, 14]
-        // ];
-
-        window.map = new google.maps.Map(document.getElementById('map'), {
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        });
-
-        var infowindow = new google.maps.InfoWindow();
-
-        var bounds = new google.maps.LatLngBounds();
-        console.log(tourResultObj.length)
-
-        for (i = 0; i < tourResultObj.length; i++) {
-            console.log('anything')
-            console.log(tourResultObj[i])
-            marker = new google.maps.Marker({
-                position: new google.maps.LatLng(tourResultObj[i].latitude, tourResultObj[i].longitude),
-                map: map
-            });
-
-            bounds.extend(marker.position);
-
-            // google.maps.event.addListener(marker, 'click', (function (marker, i) {
-            //     return function () {
-            //         infowindow.setContent(tourResultObj[i][0]);
-            //         infowindow.open(map, marker);
-            //     }
-            // })(marker, i));
         }
-
-        map.fitBounds(bounds);
-
-    }
-
-
-    //resultsMap();
-
+    });
+    
     // map for point to point
     function initMap() {
         var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -426,44 +386,42 @@ $(document).ready(function () {
         });
     }
 
-
-    //function popMap (lat,lng,zoom) {
-
-    //}
-
-    //function startMap (userLocation){
-    //if (window.location.href.includes('search') {
-    //geocode !== undefined && user address/zip !== undefined
-    //if geo code exitst
-    //use geo & populate map
-    //else
-    //use user input & populate map
-    // eles
-    //request geolocation access again
-    //if declined
-    //modal to get user input
-    //populate map
-    //else
-    //use geo and populate map
-    $.ajax({
-        url: `https://maps.googleapis.com/maps/api/geocode/json?address=` + localStorage.address + `,` + localStorage.city + `,` + localStorage.state + `&key=AIzaSyByQ2vFELH2U1syRSBKWtQI_NKo-EBIjDI`,
-        method: 'GET',
-        dataType: 'json',
-    }).then(function (geoCodeResponse) {
-        userAddressLat = geoCodeResponse.results["0"].geometry.location.lat;
-        userAddressLng = geoCodeResponse.results["0"].geometry.location.lng;
-        console.log(userAddressLat, userAddressLng)
+    //if user manages to get to this page without submitting geo info, it asks for it again
+    if (window.location.href.includes('search') && localStorage.currLat == undefined && localStorage.state == undefined) {
+        showModal();
+        console.log('all conditions met')
+    } else if (localStorage.currLat !== undefined) { //else if geo data from button exists, use that
+        userAddressLat = parseFloat(localStorage.currLat);
+        userAddressLng = parseFloat(localStorage.currLong);
+        console.log("geo location passed through: " + userAddressLat + userAddressLng)
         window.map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: userAddressLat, lng: userAddressLng },
+            center: {lat: userAddressLat, lng: userAddressLng},
             zoom: 14,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         })
         marker = new google.maps.Marker({
-            position: new google.maps.LatLng(userAddressLat, userAddressLng),
+            position: new google.maps.LatLng(userAddressLat,userAddressLng),
             map: map
         });
-    });
-    //}
-    //}
+    } else { //else use user input & populate map
+        $.ajax({
+            url: `https://maps.googleapis.com/maps/api/geocode/json?address=`+ localStorage.address +`,`+ localStorage.city +`,`+ localStorage.state +`&key=AIzaSyByQ2vFELH2U1syRSBKWtQI_NKo-EBIjDI`,
+            method: 'GET',
+            dataType: 'json',
+        }).then(function(geoCodeResponse){
+            userAddressLat = geoCodeResponse.results["0"].geometry.location.lat;
+            userAddressLng = geoCodeResponse.results["0"].geometry.location.lng;
+            console.log(userAddressLat,userAddressLng)
+            window.map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: userAddressLat, lng: userAddressLng},
+                zoom: 14,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            })
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(userAddressLat,userAddressLng),
+                map: map
+            }); 
+        });
+    }   
 
 });

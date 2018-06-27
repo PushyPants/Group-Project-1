@@ -116,6 +116,21 @@ background: none;
       min-height: 50px;
       
   }
-  .search-results{
-      overflow: auto;
+
+  #myModal button.close {
+      display: none;
+  }
+
+  .alert-container{
+      display: none;
+      position: absolute;
+      z-index: 9999;
+      top: 50%;
+      left: 50%;
+  }
+
+  .alert-container .alert {
+      position: relative;
+      top: -50%;
+      left: -50%;
   }
