@@ -28,8 +28,8 @@ $(document).ready(function () {
         });
         let contentCol = $('<div>').attr({ class: 'col-sm-8 res-content text-center' });
         let resTitleRow = $('<div>').attr({ class: 'row title-row text-center' });
-        let resTitle = $('<h2>').attr({ class: 'text-center' });
-        let resBodyRow = $('<div>').attr({ class: 'row res-body-row text-left' });
+        let resTitle = $('<h2 id= "artist">').attr({ class: 'text-center' });
+        let resBodyRow = $('<div style="justify-content:center">').attr({ class: 'row res-body-row text-center' });
         let resLocation = $('<h3>').attr({ class: 'text-left' });
         let dateCol = $('<div>').attr({ class: 'col-sm-2 res-date text-center' });
         let resDate = $('<h4>');
@@ -43,7 +43,7 @@ $(document).ready(function () {
         resTitle.text(x.name);
         $('#' + x.id + ' .res-content').append(resBodyRow);
         $('#' + x.id + ' .res-body-row').append(resLocation);
-        resLocation.text(x.short_bio);
+        // resLocation.text(x.short_bio);
         //click function to populate map from multiple bands
         $('#' + x.id).on("click", function () {
             console.log("Tour info my guy");
@@ -57,6 +57,11 @@ $(document).ready(function () {
                 console.log(tourInfo);
                 if (tourInfo.event_count === "0") {
                     console.log("no tours :(");
+                    let noShow = $(".search-results");
+                    let noShowComment = $('<h1>');
+                    noShow.append(noShowComment);
+
+                    noShowComment.text("Oh man! So sorry, they aren't touring! Try another search!");
                     //if no tour have a pop up?? 
                 }
                 else {
@@ -83,13 +88,13 @@ $(document).ready(function () {
 
                             ///////////////////////////////////////////////////////////////////////////////
                             //here is where I want to grab each event, put in a div and populate the div to .search results//
-                            
 
 
 
-                            let tourRow = $('<div>').attr({ 
+
+                            let tourRow = $('<div>').attr({
                                 class: 'res-row row',
-                                id : details.id,
+                                id: details.id,
                                 'data-lat': details.latitude,
                                 'data-lng': details.longitude,
                             });
@@ -118,13 +123,13 @@ $(document).ready(function () {
                             tourTitle.text(details.title);
                             tourContentCol.append(tourBodyRow);
                             tourBodyRow.append(tourLocation);
-                            tourLocation.text(details.city+", " + details.region + ": " + details.venue_name);
+                            tourLocation.text(details.city + ", " + details.region + ": " + details.venue_name);
                             tourRow.append(dateCol);
                             dateCol.append(tourDate);
                             tourDate.text(details.start_time);
                             dateCol.append(tourTicket);
                             tourTicket.html(`<a href= ${details.links.link[0].url} target="_blank">Tickets</a>`);
-                            
+
                             //mark out the map
                             marker = new google.maps.Marker({
                                 position: new google.maps.LatLng(details.latitude, details.longitude),
@@ -180,7 +185,6 @@ $(document).ready(function () {
             }).then(function (artistSearch) {
                 let performersObj = artistSearch.performers.performer
                 let performersAmt = performersObj.length;
-
                 if (performersAmt > 1) {
                     $.each(performersObj, function () {
                         popArtistList(this);
@@ -212,6 +216,46 @@ $(document).ready(function () {
                                 tourResultObj.push(tourInfo);
                                 console.log(tourInfo)
                                 console.log('lat: ', tourInfo.latitude, ' lng: ', tourInfo.longitude);
+
+                                let tourRow = $('<div>').attr({
+                                    class: 'res-row row',
+                                    id: tourInfo.id,
+                                    'data-lat': tourInfo.latitude,
+                                    'data-lng': tourInfo.longitude,
+                                });
+
+                                let imgCol = $('<div id = "imgCol">').attr({ class: 'col-sm-2 img-col' });
+                                let resImg = $('<img>').attr({
+                                    class: 'res-image img-fluid mx-auto',
+                                    src: tourInfo.images.image["0"].medium.url,
+                                });
+                                let tourContentCol = $('<div id= "tourContentCol">').attr({ class: 'col-sm-8 res-content text-left' });
+
+                                let tourTitleRow = $('<div>').attr({ class: 'row title-row text-center' })
+                                let tourTitle = $('<h2>').attr({ class: 'text-center' });
+                                let tourBodyRow = $('<div>').attr({ class: 'row res-body-row text-left' });
+                                let tourLocation = $('<h3 style ="justify-content: center">').attr({ class: 'text-left' });
+                                let dateCol = $('<div id= "dateCol">').attr({ class: 'col-sm-2 res-date text-center' });
+                                let tourDate = $('<h4>');
+                                let tourTicket = $('<h4>');
+
+                                $('.search-results').append(tourRow);
+                                tourRow.append(imgCol);
+                                imgCol.append(resImg);
+                                tourRow.append(tourContentCol);
+                                tourContentCol.append(tourTitleRow);
+                                tourTitleRow.append(tourTitle);
+                                tourTitle.text(tourInfo.title);
+                                tourContentCol.append(tourBodyRow);
+                                tourBodyRow.append(tourLocation);
+                                tourLocation.text(tourInfo.city + ", " + tourInfo.region + ": " + tourInfo.venue_name);
+                                tourRow.append(dateCol);
+                                dateCol.append(tourDate);
+                                tourDate.text(tourInfo.start_time);
+                                dateCol.append(tourTicket);
+                                tourTicket.html(`<a href= ${tourInfo.links.link[0].url} target="_blank">Tickets</a>`);
+
+
 
                                 marker = new google.maps.Marker({
                                     position: new google.maps.LatLng(tourInfo.latitude, tourInfo.longitude),
@@ -258,14 +302,14 @@ $(document).ready(function () {
 
     //this is pertaining to the modal on the splash page <plz do not delete my dudes>
     $(window).on('load', function () {
-        if(window.location.href.includes('index')) {
-        showModal();
+        if (window.location.href.includes('index')) {
+            showModal();
         }
     });
 
     //this is so nav icon can be clickable
-    function showModal(){
-        $('#myModal').modal({backdrop: 'static', keyboard: false , show: true});
+    function showModal() {
+        $('#myModal').modal({ backdrop: 'static', keyboard: false, show: true });
 
         $(document).on("click", "#locate-button", function () {
             localStorage.clear();
@@ -322,7 +366,7 @@ $(document).ready(function () {
 
         }
     });
-    
+
     // map for point to point
     function initMap() {
         var directionsDisplay = new google.maps.DirectionsRenderer;
@@ -362,33 +406,33 @@ $(document).ready(function () {
         userAddressLng = parseFloat(localStorage.currLong);
         console.log("geo location passed through: " + userAddressLat + userAddressLng)
         window.map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: userAddressLat, lng: userAddressLng},
+            center: { lat: userAddressLat, lng: userAddressLng },
             zoom: 14,
             mapTypeId: google.maps.MapTypeId.ROADMAP
         })
         marker = new google.maps.Marker({
-            position: new google.maps.LatLng(userAddressLat,userAddressLng),
+            position: new google.maps.LatLng(userAddressLat, userAddressLng),
             map: map
         });
     } else { //else use user input & populate map
         $.ajax({
-            url: `https://maps.googleapis.com/maps/api/geocode/json?address=`+ localStorage.address +`,`+ localStorage.city +`,`+ localStorage.state +`&key=AIzaSyByQ2vFELH2U1syRSBKWtQI_NKo-EBIjDI`,
+            url: `https://maps.googleapis.com/maps/api/geocode/json?address=` + localStorage.address + `,` + localStorage.city + `,` + localStorage.state + `&key=AIzaSyByQ2vFELH2U1syRSBKWtQI_NKo-EBIjDI`,
             method: 'GET',
             dataType: 'json',
-        }).then(function(geoCodeResponse){
+        }).then(function (geoCodeResponse) {
             userAddressLat = geoCodeResponse.results["0"].geometry.location.lat;
             userAddressLng = geoCodeResponse.results["0"].geometry.location.lng;
-            console.log(userAddressLat,userAddressLng)
+            console.log(userAddressLat, userAddressLng)
             window.map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: userAddressLat, lng: userAddressLng},
+                center: { lat: userAddressLat, lng: userAddressLng },
                 zoom: 14,
                 mapTypeId: google.maps.MapTypeId.ROADMAP
             })
             marker = new google.maps.Marker({
-                position: new google.maps.LatLng(userAddressLat,userAddressLng),
+                position: new google.maps.LatLng(userAddressLat, userAddressLng),
                 map: map
-            }); 
+            });
         });
-    }   
+    }
 
 });
