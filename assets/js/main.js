@@ -27,7 +27,7 @@ $(document).ready(function () {
             src: artistImage,
         });
         let contentCol = $('<div>').attr({ class: 'col-sm-8 res-content text-center' });
-        let resTitleRow = $('<div>').attr({ class: 'row title-row text-center' })
+        let resTitleRow = $('<div>').attr({ class: 'row title-row text-center' });
         let resTitle = $('<h2>').attr({ class: 'text-center' });
         let resBodyRow = $('<div>').attr({ class: 'row res-body-row text-left' });
         let resLocation = $('<h3>').attr({ class: 'text-left' });
@@ -83,35 +83,45 @@ $(document).ready(function () {
 
                             ///////////////////////////////////////////////////////////////////////////////
                             //here is where I want to grab each event, put in a div and populate the div to .search results//
+                            
 
-                            var tourDiv = $('<div>');
-                            let imgCol = $('<div style= "float: left">').attr({ class: 'col-sm-2 mx-auto img-col' });
+
+
+                            let tourRow = $('<div>').attr({ 
+                                class: 'res-row row',
+                                id : details.id,
+                                'data-lat': details.latitude,
+                                'data-lng': details.longitude,
+                            });
+
+                            let imgCol = $('<div>').attr({ class: 'col-sm-2 img-col' });
                             let resImg = $('<img>').attr({
                                 class: 'res-image img-fluid mx-auto',
                                 src: details.images.image["0"].medium.url,
                             });
-                            let tourCityVenue = $('<div>').attr({ class: 'row title-row text-center' }); //div for city and venue
-                            let tourCity = $('<h3>').attr({ class: 'text-center' });
-                            let tourVenue = $('<h4>').attr({ class: 'text-center' });
-                            tourCity.text("Where: " +details.city +", "+details.region);
-                            tourVenue.text("at: " +details.address +", "+details.venue_name);
-                            tourCityVenue.append(tourCity);
-                            tourCityVenue.append(tourVenue);
+                            let tourContentCol = $('<div>').attr({ class: 'col-sm-8 res-content text-left' });
 
+                            let tourTitleRow = $('<div>').attr({ class: 'row title-row text-left' })
+                            let tourTitle = $('<h2>').attr({ class: 'text-center' });
+                            let tourBodyRow = $('<div>').attr({ class: 'row res-body-row text-left' });
+                            let tourLocation = $('<h3>').attr({ class: 'text-left' });
+                            let dateCol = $('<div>').attr({ class: 'col-sm-2 res-date text-center' });
+                            let tourDate = $('<h4>');
 
-                            
-
+                            $('.search-results').append(tourRow);
+                            tourRow.append(imgCol);
                             imgCol.append(resImg);
-                            tourDiv.append(imgCol);
-                            tourDiv.append(tourCityVenue);
+                            tourRow.append(tourContentCol);
+                            tourContentCol.append(tourTitleRow);
+                            tourTitleRow.append(tourTitle);
+                            tourTitle.text(details.title);
+                            tourContentCol.append(tourBodyRow);
+                            tourBodyRow.append(tourLocation);
+                            tourLocation.text(details.city+", " + details.region + ": " + details.venue_name);
+                            tourRow.append(dateCol);
+                            dateCol.append(tourDate);
+                            tourDate.text(details.start_time);
                             
-                            
-                            //details.images.image["0"].medium.url
-                            $('.search-results').append(tourDiv);
-                            /////////////////////////////////////////////////////////////////////////////
-
-
-
                             //mark out the map
                             marker = new google.maps.Marker({
                                 position: new google.maps.LatLng(details.latitude, details.longitude),
