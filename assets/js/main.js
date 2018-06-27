@@ -485,7 +485,10 @@ $(document).ready(function () {
             </div>
                 `)
             })
-            $('.carousel-item').first().addClass('active')
+            $('.carousel-item').first().addClass('active inactiveUntilOnLoad');
+            setTimeout(function(){$('.carousel-item').first().removeClass('inactiveUntilOnLoad');},500)
+            
+
         });
     }
     loadBgs();
