@@ -465,4 +465,10 @@ $(document).ready(function () {
         }   
     }
 
+
+    $('.inactiveUntilOnLoad').removeClass('inactiveUntilOnLoad');
+    
+    jQuery.fn.carousel.Constructor.TRANSITION_DURATION = 2000 
+    
+
 });
