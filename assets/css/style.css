@@ -134,3 +134,24 @@ background: none;
       top: -50%;
       left: -50%;
   }
+  div#dateCol {
+    padding: 0;
+    align-self: center;
+    border-left: dotted;
+    font-family: 'Inconsolata', monospace;
+
+    /* margin: 0; */
+}
+div#tourContentCol {
+    
+    align-content: center;
+    font-family: 'Inconsolata', monospace;
+}
+.row.title-row.text-center {
+    /* border-bottom: dotted; */
+    text-decoration: underline;
+    justify-content: center;
+}
+.search-results{
+    overflow: auto;
+}

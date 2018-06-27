@@ -94,19 +94,20 @@ $(document).ready(function () {
                                 'data-lng': details.longitude,
                             });
 
-                            let imgCol = $('<div>').attr({ class: 'col-sm-2 img-col' });
+                            let imgCol = $('<div id = "imgCol">').attr({ class: 'col-sm-2 img-col' });
                             let resImg = $('<img>').attr({
                                 class: 'res-image img-fluid mx-auto',
                                 src: details.images.image["0"].medium.url,
                             });
-                            let tourContentCol = $('<div>').attr({ class: 'col-sm-8 res-content text-left' });
+                            let tourContentCol = $('<div id= "tourContentCol">').attr({ class: 'col-sm-8 res-content text-left' });
 
-                            let tourTitleRow = $('<div>').attr({ class: 'row title-row text-left' })
+                            let tourTitleRow = $('<div>').attr({ class: 'row title-row text-center' })
                             let tourTitle = $('<h2>').attr({ class: 'text-center' });
                             let tourBodyRow = $('<div>').attr({ class: 'row res-body-row text-left' });
-                            let tourLocation = $('<h3>').attr({ class: 'text-left' });
-                            let dateCol = $('<div>').attr({ class: 'col-sm-2 res-date text-center' });
+                            let tourLocation = $('<h3 style ="justify-content: center">').attr({ class: 'text-left' });
+                            let dateCol = $('<div id= "dateCol">').attr({ class: 'col-sm-2 res-date text-center' });
                             let tourDate = $('<h4>');
+                            let tourTicket = $('<h4>');
 
                             $('.search-results').append(tourRow);
                             tourRow.append(imgCol);
@@ -121,6 +122,8 @@ $(document).ready(function () {
                             tourRow.append(dateCol);
                             dateCol.append(tourDate);
                             tourDate.text(details.start_time);
+                            dateCol.append(tourTicket);
+                            tourTicket.html(`<a href= ${details.links.link[0].url} target="_blank">Tickets</a>`);
                             
                             //mark out the map
                             marker = new google.maps.Marker({
