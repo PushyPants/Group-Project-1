@@ -24,7 +24,7 @@ body {
 .main-body {
     position: relative;
     height: 100vh;
-    background-color: #333;
+    background-color: black;
     color: white;
 }
 
@@ -98,3 +98,106 @@ background: none;
     width: 350px;
     overflow: auto;
   } 
+
+  .wc-content {
+      color: black;
+  }
+
+  .wc-title {
+      /* color: black; */
+      text-decoration: underline;
+  }
+  .wc-image {
+      border-radius: 50%;
+  }
+
+  .res-row {
+      border-bottom: 2px solid white;
+      min-height: 50px;
+      
+  }
+
+  #myModal button.close {
+      display: none;
+  }
+
+  .alert-container{
+      display: none;
+      position: absolute;
+      z-index: 9999;
+      top: 50%;
+      left: 50%;
+  }
+
+  .alert-container .alert {
+      position: relative;
+      top: -50%;
+      left: -50%;
+  }
+  div#dateCol {
+    padding: 0;
+    align-self: center;
+    border-left: dotted;
+    font-family: 'Inconsolata', monospace;
+
+    /* margin: 0; */
+}
+div#tourContentCol {
+    
+    align-content: center;
+    font-family: 'Inconsolata', monospace;
+}
+.row.title-row.text-center {
+    /* border-bottom: dotted; */
+    text-decoration: underline;
+    justify-content: center;
+}
+.search-results{
+    overflow: auto;
+}
+#artist{
+    font-family: 'Marcellus SC', serif;
+
+}
+.col-sm-2.mx-auto.img-col {
+    
+    margin: auto;
+}
+
+.carousel .carousel-item img {
+    -webkit-transition: all 45s;
+    -moz-transition: all 45s;
+    -o-transition: all 45s;
+    transition: all 45s;
+  }
+  .carousel .carousel-item.active.inactiveUntilOnLoad img,
+  .carousel .carousel-item img {
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -o-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+  .carousel .carousel-item.active img {
+    -webkit-transform: scale(1.5);
+    -moz-transform: scale(1.5);
+    -o-transform: scale(1.5);
+    -ms-transform: scale(1.5);
+    transform: scale(1.5);
+  }
+
+  /* .carousel .carousel-item {
+    transition: -webkit-transform 2s ease;
+    transition: transform 2s ease;
+    transition: transform 2s ease, -webkit-transform 2s ease;
+  } */
+  
+  #kb-bg {
+      z-index: -9999;
+  }
+
+  .modal-content {
+    background-color: rgba(125, 125, 125, 0.5);
+    color: white;
+    border: 1px solid;
+  }

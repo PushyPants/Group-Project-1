@@ -21,6 +21,19 @@
 </head>
 
 <body id="splash">
+    <div id="kb-bg" class="carousel slide carousel-fade" data-ride="carousel" data-pause="false" data-wrap="true" data-interval="8000">
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item active inactiveUntilOnLoad">
+            <img class="d-block img-fluid" src="https://images.unsplash.com/photo-1483101974978-cf266fdf1139?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=250711afae03c79108409b3e0fa17862&auto=format&fit=crop&w=2978&q=80" alt="First slide">
+            </div>
+            <div class="carousel-item">
+            <img class="d-block img-fluid" src="https://images.unsplash.com/photo-1429514513361-8fa32282fd5f?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6c43872d00d38229ecb1d2a8a55488b6&auto=format&fit=crop&w=2767&q=80" alt="Second slide">
+            </div>
+            <div class="carousel-item">
+            <img class="d-block img-fluid" src="https://images.unsplash.com/photo-1465199308303-08e6bc3fa443?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=015f2d607b15f3559e9fada230198b0f&auto=format&fit=crop&w=2767&q=80" alt="Third slide">
+            </div>
+        </div>
+    </div>
 
 
   <div class="container-fluid">
@@ -35,18 +48,12 @@
 
 
 
-
-    <!-- Button trigger modal -->
-    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Button or nah?
-      </button> -->
-
     <!-- Modal -->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-centered " role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">First, a little information about yourself</h5>
+            <h3 class="modal-title mx-auto" id="exampleModalLabel">First, a little information about yourself</h3>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -56,20 +63,20 @@
             <form>
 
 
-              <div class="form-group" style ="padding:0;">
+              <div class="form-group" style="padding:0;">
                 <label for="form-rowInput">Address</label>
                 <div class="w-100">
                   <input type="text" id="address-in" class="form-control" placeholder="Address" autocomplete="address">
 
                 </div>
               </div>
-              
-                <div class="form-group" >
+
+              <div class="form-group">
                 <label for="form-rowInput">City, State, and Zip</label>
 
                 <div class="form-row">
                   <div class="col-7">
-                    <input type="text" id="city-in" class="form-control" placeholder="City" autocomplete="city" >
+                    <input type="text" id="city-in" class="form-control" placeholder="City" autocomplete="city">
                   </div>
                   <div class="col">
                     <input type="text" id="state-in" class="form-control" placeholder="State" autocomplete="state">
@@ -90,19 +97,20 @@
                 <i class="material-icons"> not_listed_location </i>
               </button> Click to make things easier!
 
-            </div>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div> 
             <button type="button" id="submit-button" class="btn btn-primary">Submit</button>
           </div>
         </div>
       </div>
 
-
-
-
-
+    </div>
+    <div class="alert-container">
+      <div class="alert alert-secondary" role="alert">
+        Must at least enter state!
+      </div>
 
     </div>
+    
 </body>
 
 </html>
