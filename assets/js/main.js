@@ -470,5 +470,25 @@ $(document).ready(function () {
 
    $('.inactiveUntilOnLoad').removeClass('inactiveUntilOnLoad');
     
+    function loadBgs() {
+        $.ajax({
+            url: 'https://api.unsplash.com/search/photos/?client_id=406ebe3865e4b4406cac08e2ed0360b198a3285d15128426d957c06076b10d91&query=concert&orientation=landscape',
+            method: 'GET',
+        }).then(function(images){
+            console.log(images)
+            bgImgs = images.results
+            $.each(bgImgs, function(){
+                console.log(this.urls.full);
+                $('.carousel-inner').append(`
+                <div class="carousel-item">
+            <img class="d-block img-fluid" src="${this.urls.full}">
+            </div>
+                `)
+            })
+            $('.carousel-item').first().addClass('active')
+        });
+    }
+    loadBgs();
+
 
 });

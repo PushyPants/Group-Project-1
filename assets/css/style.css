@@ -34,7 +34,7 @@ body {
 
 #splash { 
     /* this is relating to the splash page */
-    background-image: url("../images/fans.jpg");
+    background-color: black;
     background-size: 100%;
 
 }
