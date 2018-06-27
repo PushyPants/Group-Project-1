@@ -94,14 +94,14 @@ $(document).ready(function () {
                                 'data-lng': details.longitude,
                             });
 
-                            let imgCol = $('<div>').attr({ class: 'col-sm-2 mx-auto img-col' });
+                            let imgCol = $('<div>').attr({ class: 'col-sm-2 img-col' });
                             let resImg = $('<img>').attr({
                                 class: 'res-image img-fluid mx-auto',
                                 src: details.images.image["0"].medium.url,
                             });
-                            let tourContentCol = $('<div>').attr({ class: 'col-sm-8 res-content text-center' });
+                            let tourContentCol = $('<div>').attr({ class: 'col-sm-8 res-content text-left' });
 
-                            let tourTitleRow = $('<div>').attr({ class: 'row title-row text-center' })
+                            let tourTitleRow = $('<div>').attr({ class: 'row title-row text-left' })
                             let tourTitle = $('<h2>').attr({ class: 'text-center' });
                             let tourBodyRow = $('<div>').attr({ class: 'row res-body-row text-left' });
                             let tourLocation = $('<h3>').attr({ class: 'text-left' });
@@ -111,8 +111,8 @@ $(document).ready(function () {
                             $('.search-results').append(tourRow);
                             tourRow.append(imgCol);
                             imgCol.append(resImg);
-                            tourRow.append(contentCol);
-                            contentCol.append(tourTitleRow);
+                            tourRow.append(tourContentCol);
+                            tourContentCol.append(tourTitleRow);
                             tourTitleRow.append(tourTitle);
                             tourTitle.text(details.title);
                             tourContentCol.append(tourBodyRow);
@@ -120,7 +120,7 @@ $(document).ready(function () {
                             tourLocation.text(details.city+", " + details.region + ": " + details.venue_name);
                             tourRow.append(dateCol);
                             dateCol.append(tourDate);
-                            tourDate.text(detail.start_time);
+                            tourDate.text(details.start_time);
 
 
 
