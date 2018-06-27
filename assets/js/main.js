@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    
+    
+
     $('.artist-val').focus();
 
     let searchInput;
@@ -212,11 +215,6 @@ $(document).ready(function () {
                         
                     })
                 } else {
-                    
-                    if (eventCounter == 0){
-                        $('.search-results').text('Not on tour at this time')
-
-                    } else {
 
                     //new blank map
                     window.map = new google.maps.Map(document.getElementById('map'), {
@@ -320,7 +318,6 @@ $(document).ready(function () {
                         })
                     })
 
-                }
             }
 
             })
@@ -420,8 +417,9 @@ $(document).ready(function () {
             }
         });
     }
-   
-    setInitialMap();
+    if (window.location.href.includes('search')) {
+        setInitialMap();
+    }
 
     //if user manages to get to this page without submitting geo info, it asks for it again
 
@@ -465,10 +463,7 @@ $(document).ready(function () {
         }   
     }
 
-
-    $('.inactiveUntilOnLoad').removeClass('inactiveUntilOnLoad');
-    
-    jQuery.fn.carousel.Constructor.TRANSITION_DURATION = 2000 
+   $('.inactiveUntilOnLoad').removeClass('inactiveUntilOnLoad');
     
 
 });

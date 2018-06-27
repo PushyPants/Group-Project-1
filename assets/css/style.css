@@ -201,3 +201,15 @@ div#tourContentCol {
     color: white;
     border: 1px solid;
   }
+
+  .loading-gif-positioner {
+      position: relative;
+      left: 50%;
+      top: 50%;
+  }
+
+  .loading-gif {
+      position: relative;
+      left: -50%;
+      top: -50%;
+  }
