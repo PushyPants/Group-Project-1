@@ -158,28 +158,7 @@ $(document).ready(function () {
                                 tourLat = parseFloat(details.latitude);
                                 tourLng = parseFloat(details.longitude);
                                 console.log(tourLat,' ',tourLng);
-                                //initMap(tourLat, tourLng);
-                                var directionsDisplay = new google.maps.DirectionsRenderer;
-                                var directionsService = new google.maps.DirectionsService;
-                                var map = new google.maps.Map(document.getElementById('map'), {
-                                    zoom: 14,
-                                    center: {lat: userAddressLat, lng: userAddressLng} ,//replace with begining lat/lng
-                                });
-                                directionsDisplay.setMap(map);
-                                directionsDisplay.setPanel(document.getElementById('right-panel'));
-
-                                directionsService.route({
-                                    origin: {lat: userAddressLat, lng: userAddressLng}, // replace with start lat lng
-                                    destination: {lat: tourLat, lng: tourLng}, // replace with end lat/lng
-                                    travelMode: 'DRIVING'
-                                }, function (response, status) {
-                                    if (status == 'OK') {
-                                        directionsDisplay.setDirections(response);
-                                        console.log(response);
-                                    } else {
-                                        window.alert('Directions request failed due to ' + status);
-                                    }
-                                });
+                                initMap(tourLat, tourLng);
                             })
 
                         });
