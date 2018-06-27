@@ -121,43 +121,7 @@ $(document).ready(function () {
                             tourRow.append(dateCol);
                             dateCol.append(tourDate);
                             tourDate.text(details.start_time);
-
-
-
-
-                            // var tourDiv = $('<div>');
-                            // let imgCol = $('<div style= "float: left">').attr({ class: 'col-sm-2 mx-auto img-col' });
-                            // let resImg = $('<img>').attr({
-                            //     class: 'res-image img-fluid mx-auto',
-                            //     src: details.images.image["0"].medium.url,
-                            // });
-
-                            // let tourCityVenue = $('<div>').attr({ class: 'row title-row text-center' });
-                            // let tourTitle = $('<h4>').attr({class: 'text-center'});
-                            // let tourCity = $('<h5>').attr({ class: 'text-center' });
-                            // let tourVenue = $('<h6>').attr({ class: 'text-center' });
-                            // tourTitle.text(details.title );
-                            // tourCity.text(details.city +", "+details.region);
-                            // tourVenue.text(details.address +", "+details.venue_name + " at: "+ details.start_time);
-                            // tourCityVenue.append(tourTitle);
-                            // tourCityVenue.append(tourCity);
-                            // tourCityVenue.append(tourVenue);
-                            // moment(details.start_time).toJDFString("DD.MM.YYYY")  returns the Java format pattern "dd.MM.yyyy"
-
-
                             
-                            
-                            // imgCol.append(resImg);
-                            // tourDiv.append(imgCol);
-                            // tourDiv.append(tourCityVenue);
-                            
-                            
-                            //details.images.image["0"].medium.url
-                            // $('.search-results').append(tourDiv);
-                            /////////////////////////////////////////////////////////////////////////////
-
-
-
                             //mark out the map
                             marker = new google.maps.Marker({
                                 position: new google.maps.LatLng(details.latitude, details.longitude),
