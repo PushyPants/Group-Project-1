@@ -212,11 +212,6 @@ $(document).ready(function () {
                         
                     })
                 } else {
-                    
-                    if (eventCounter == 0){
-                        $('.search-results').text('Not on tour at this time')
-
-                    } else {
 
                     //new blank map
                     window.map = new google.maps.Map(document.getElementById('map'), {
@@ -320,7 +315,6 @@ $(document).ready(function () {
                         })
                     })
 
-                }
             }
 
             })
