@@ -204,13 +204,20 @@ $(document).ready(function () {
                 let performersAmt = performersObj.length;
                 if (performersAmt > 1) {
                     $.each(performersObj, function () {
+                        
                         popArtistList(this);
-
-                        if (eventCounter == 0){
+                        setTimeout(function(){if (eventCounter == 0){
                             $('.search-results').text('Not on tour at this time')
-                        }
+                        }},3000)
+                        
                     })
                 } else {
+                    
+                    if (eventCounter == 0){
+                        $('.search-results').text('Not on tour at this time')
+
+                    } else {
+
                     //new blank map
                     window.map = new google.maps.Map(document.getElementById('map'), {
                         mapTypeId: google.maps.MapTypeId.ROADMAP
@@ -314,6 +321,7 @@ $(document).ready(function () {
                     })
 
                 }
+            }
 
             })
         })
