@@ -24,7 +24,7 @@ body {
 .main-body {
     position: relative;
     height: 100vh;
-    background-color: #333;
+    background-color: black;
     color: white;
 }
 
@@ -154,4 +154,12 @@ div#tourContentCol {
 }
 .search-results{
     overflow: auto;
+}
+#artist{
+    font-family: 'Marcellus SC', serif;
+
+}
+.col-sm-2.mx-auto.img-col {
+    
+    margin: auto;
 }
