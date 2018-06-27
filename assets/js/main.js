@@ -59,7 +59,7 @@ $(document).ready(function () {
             console.log("Tour info my guy");
             $('.search-results').empty(); //<<<<empty right on click
             $.ajax({
-                url: 'http://api.eventful.com/json/performers/events/list?app_key=dT9kBLwTGpSRrDZQ&id=' + x.id,
+                url: 'https://api.eventful.com/json/performers/events/list?app_key=dT9kBLwTGpSRrDZQ&id=' + x.id,
                 method: 'GET',
                 dataType: 'jsonp',
             }).then(function (tourInfo) {
@@ -87,7 +87,7 @@ $(document).ready(function () {
                     //grab each event
                     $.each(tourInfo.event, function () {
                         $.ajax({
-                            url: 'http://api.eventful.com/json/events/get?app_key=dT9kBLwTGpSRrDZQ&id=' + this.id,
+                            url: 'https://api.eventful.com/json/events/get?app_key=dT9kBLwTGpSRrDZQ&id=' + this.id,
                             method: 'GET',
                             dataType: 'jsonp'
                         }).then(function (details) {
@@ -235,7 +235,7 @@ $(document).ready(function () {
                         $.each(tourList.event, function () {
                             $.ajax({
                                 //this is specific tour entries-returns indicvidual tour entries relating to artist
-                                url: 'http://api.eventful.com/json/events/get?app_key=dT9kBLwTGpSRrDZQ&id=' + this.id,
+                                url: 'https://api.eventful.com/json/events/get?app_key=dT9kBLwTGpSRrDZQ&id=' + this.id,
                                 method: 'GET',
                                 dataType: 'jsonp'
                             }).then(function (tourInfo) {
