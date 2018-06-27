@@ -339,6 +339,11 @@ $(document).ready(function () {
 
         $(document).on("click", "#locate-button", function () {
             localStorage.clear();
+            $('.modal-content').empty();
+            $('.modal-content').append(`<div class="spinner">
+            <div class="double-bounce1"></div>
+            <div class="double-bounce2"></div>
+          </div>`)
             console.log("clicked locate-button"); //click is functioning
             if ("geolocation" in navigator) { //check geolocation available 
                 //try to get user current location using getCurrentPosition() method
